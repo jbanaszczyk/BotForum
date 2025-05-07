@@ -1,0 +1,39 @@
+---
+
+ollama_url: http://localhost:11434
+log_level: INFO
+commands:
+  - exit:
+      - /exit
+      - /quit
+      - /bye
+  - reset:
+      - /reset
+
+default_system_prompt: Provide detailed and comprehensive response
+
+# Model selection (names required, prompts optional)
+models:
+  - deepseek-r1:1.5b:
+      system_prompt: Respond naturally and professionally
+  - gemma3:1b:
+      system_prompt: Respond naturally and professionally
+  - SpeakLeash/bielik-11b-v2.3-instruct:Q4_K_M:
+      system_prompt: Respond naturally and professionally
+  - qwen3:0.6b:
+      system_prompt: Respond naturally and professionally
+  - phi4:latest:
+      system_prompt: Respond naturally and professionally
+      judge: true
+
+judge:
+  user_question_prefix: 'User question:'
+  model_responses_prefix: 'Model responses:'
+  model_response_format: |-
+    Model {model_name} response:
+    {response_content}
+  response_format:
+    header: 'Response format:'
+    points:
+      - Brief evaluation of each response
+      - If needed, own improved response

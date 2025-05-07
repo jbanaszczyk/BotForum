@@ -16,7 +16,7 @@ This tool enables efficient model performance comparison and helps identify stre
 - **Response Comparison**: Compare responses from different models side-by-side
 - **Response Evaluation**: A designated "judge" model evaluates each response
 - **Conversation Management**: Reset conversation history or exit the application with simple commands
-- **Flexible Configuration**: Configure models, prompts, and system behavior through environment variables
+- **Flexible Configuration**: Configure models, prompts, and system behavior through YAML configuration
 
 ## Requirements
 
@@ -24,7 +24,7 @@ This tool enables efficient model performance comparison and helps identify stre
 - Ollama (running locally or on a remote server)
 - Required Python packages:
     - requests
-    - python-dotenv
+    - pyyaml
 
 ## Installation
 
@@ -50,29 +50,12 @@ python chat_bot.py
 
 ## Configuration
 
-The application is highly configurable through environment variables in the `.env` file:
+The application is configurable through the `config.yaml` file:
 
 ### Core Configuration
-- `BASE_URL`: URL of the Ollama API (default: http://localhost:11434)
-- `LOG_LEVEL`: Logging level (DEBUG, INFO, WARNING, ERROR, CRITICAL)
-- `MODELS`: Comma-separated list of models to compare
-- `JUDGE_MODEL`: Model used for evaluating responses
-
-### System Prompts
-- `DEFAULT_SYSTEM_PROMPT`: Default system prompt for all models
-- `[MODEL_NAME]_SYSTEM_PROMPT`: Specific system prompt for a particular model (e.g., QWEN3_SYSTEM_PROMPT)
-- `JUDGE_SYSTEM_PROMPT`: System prompt for the judge model
-
-### Judge Evaluation Format
-- `JUDGE_USER_QUESTION_PREFIX`: Prefix for user question in judge prompt
-- `JUDGE_MODEL_RESPONSES_PREFIX`: Prefix for model responses section
-- `JUDGE_MODEL_RESPONSE_FORMAT`: Format for individual model responses
-- `JUDGE_RESPONSE_FORMAT_HEADER`: Header for response format instruction
-- `JUDGE_RESPONSE_FORMAT_POINTS`: Format points for judge responses
-
-### Commands
-- `EXIT_COMMANDS`: Comma-separated list of commands to exit the application
-- `RESET_COMMAND`: Command to reset conversation history
+```yaml
+ollama_url: http://localhost:11434
+log_level: INFO  # DEBUG, INFO, WARNING, ERROR, CRITICAL
 
 ## How It Works
 
@@ -88,7 +71,7 @@ The application is highly configurable through environment variables in the `.en
 - **OllamaLLMClient**: Handles communication with Ollama API for each model
 - **JudgeBot**: Specializes in evaluating responses from other models
 - **ChatBot**: Coordinates the conversation flow and user interaction
-- **ConfigRepository**: Manages application configuration from environment variables
+- **ConfigRepository**: Manages application configuration from YAML file
 
 ## Error Handling
 

@@ -6,17 +6,11 @@ from enum import Enum
 from typing import Protocol, Optional, Dict, List, Self
 
 import requests
-from dotenv import load_dotenv
+import yaml
 
 
 class ConfigurationError(Exception):
     pass
-
-
-class MissingEnvVariableError(ConfigurationError):
-    def __init__(self, variable_name: str):
-        super().__init__(f"{variable_name} must be set in environment variables")
-        self.variable_name = variable_name
 
 
 class LogLevel(Enum):
@@ -54,73 +48,107 @@ class ConfigRepository(Protocol):
     def load_config(self) -> AppConfig: ...
 
 
-class EnvConfigRepository(ConfigRepository):
-    def __init__(self):
-        pass
-
-    @staticmethod
-    def _get_required_env_var(var_name: str) -> str:
-        value = os.getenv(var_name)
-        if not value:
-            raise MissingEnvVariableError(var_name)
-        return value
+class YamlConfigRepository(ConfigRepository):
+    def __init__(self, config_file="config.yaml"):
+        self.config_file = config_file
+        self.logger = logging.getLogger(__name__)
 
     def load_config(self) -> AppConfig:
         try:
-            load_dotenv()
-            judge_model = self._get_judge_model()
-            models_to_compare = self._get_models_to_compare()
+            with open(self.config_file, 'r') as file:
+                config = yaml.safe_load(file)
+
+            if not config:
+                raise ConfigurationError("Configuration file is empty or invalid")
+
+            models_to_compare = self._get_models_to_compare(config)
+            judge_model = self._get_judge_model(config)
             return AppConfig(
-                base_url=self._get_base_url(),
+                base_url=self._get_base_url(config),
                 judge_model=judge_model,
                 models_to_compare=models_to_compare,
-                system_prompts=self._get_system_prompts(judge_model, models_to_compare),
-                judge_system_prompt=self._get_judge_system_prompt(),
-                log_level=self._get_log_level()
+                system_prompts=self._get_system_prompts(config, judge_model, models_to_compare),
+                judge_system_prompt=self._get_judge_system_prompt(config),
+                log_level=self._get_log_level(config)
             )
+        except FileNotFoundError:
+            raise ConfigurationError(f"Configuration file '{self.config_file}' not found")
+        except yaml.YAMLError as e:
+            raise ConfigurationError(f"Error parsing YAML configuration: {e}")
         except ConfigurationError:
             raise
         except Exception as e:
             raise ConfigurationError(f"Configuration loading failed: {e}")
 
-    @staticmethod
-    def _get_base_url() -> str:
-        return os.getenv("BASE_URL", "http://localhost:11434")
+    def _get_base_url(self, config: Dict) -> str:
+        return config.get("ollama_url", "http://localhost:11434")
 
-    def _get_judge_model(self) -> str:
-        return self._get_required_env_var("JUDGE_MODEL")
+    def _get_judge_model(self, config: Dict) -> str:
+        for model_entry in config.get("models", []):
+            if isinstance(model_entry, dict):
+                model_name = next(iter(model_entry.keys()))
+                model_config = model_entry[model_name]
+                if model_config and model_config.get("judge") is True:
+                    return model_name
+        
+        if config.get("judge") and config["judge"].get("model"):
+            return config["judge"]["model"]
+            
+        raise ConfigurationError("Judge model not found. Add 'judge: true' attribute to one of the models.")
 
-    def _get_models_to_compare(self) -> List[str]:
-        models_str = self._get_required_env_var("MODELS")
-        return [m.strip() for m in models_str.split(",") if m.strip()]
+    def _get_models_to_compare(self, config: Dict) -> List[str]:
+        if not config.get("models"):
+            raise ConfigurationError("Missing models in configuration")
 
-    def _get_system_prompts(self, judge_model: str, models_to_compare: List[str]) -> Dict[str, str]:
+        models = []
+        for model_entry in config["models"]:
+            if isinstance(model_entry, dict):
+                models.append(next(iter(model_entry.keys())))
+            elif isinstance(model_entry, str):
+                models.append(model_entry)
+
+        if not models:
+            raise ConfigurationError("No models defined in configuration")
+
+        return models
+
+    def _get_system_prompts(self, config: Dict, judge_model: str, models_to_compare: List[str]) -> Dict[str, str]:
         prompts = {}
-        default_prompt = self._get_required_env_var("DEFAULT_SYSTEM_PROMPT")
+        default_prompt = config.get("default_system_prompt", "You are a helpful assistant.")
 
-        all_models = [judge_model] + models_to_compare
-        for model in all_models:
-            if model not in prompts:
-                model_key = model.split(":")[0].upper()
-                specific_model_prompt = os.getenv(f"{model_key}_SYSTEM_PROMPT")
-                if not specific_model_prompt:
-                    specific_model_prompt = default_prompt
-                    logging.warning(f"system prompt: {model_key}_SYSTEM_PROMPT not found, using default")
-                prompts[model] = specific_model_prompt
+        # Set judge model prompt
+        if config.get("judge") and config["judge"].get("system_prompt"):
+            prompts[judge_model] = config["judge"]["system_prompt"]
+        else:
+            prompts[judge_model] = default_prompt
+
+        # Set model prompts
+        for model_entry in config.get("models", []):
+            if isinstance(model_entry, dict):
+                model_name = next(iter(model_entry.keys()))
+                model_config = model_entry[model_name]
+                if model_config and model_config.get("system_prompt"):
+                    prompts[model_name] = model_config["system_prompt"]
+                else:
+                    prompts[model_name] = default_prompt
+            elif isinstance(model_entry, str):
+                prompts[model_entry] = default_prompt
+
         return prompts
 
-    def _get_judge_system_prompt(self) -> str:
-        return self._get_required_env_var("JUDGE_SYSTEM_PROMPT")
+    def _get_judge_system_prompt(self, config: Dict) -> str:
+        if not config.get("judge") or not config["judge"].get("system_prompt"):
+            return "Provide detailed and comprehensive responses"
+        return config["judge"]["system_prompt"]
 
-    @staticmethod
-    def _get_log_level() -> LogLevel:
-        log_level_str = os.getenv("LOG_LEVEL", "INFO").upper()
+    def _get_log_level(self, config: Dict) -> LogLevel:
+        log_level_str = config.get("log_level", "INFO").upper()
         try:
             return LogLevel[log_level_str]
         except KeyError:
             valid_levels = ", ".join([level.name for level in LogLevel])
             raise ConfigurationError(
-                f"Invalid LOG_LEVEL '{log_level_str}'. Must be one of: {valid_levels}"
+                f"Invalid log_level '{log_level_str}'. Must be one of: {valid_levels}"
             )
 
 
@@ -255,11 +283,34 @@ class JudgeBot:
             logger
         )
         self.judge_system_prompt = config.judge_system_prompt
-        self.user_question_prefix = os.getenv('JUDGE_USER_QUESTION_PREFIX')
-        self.model_responses_prefix = os.getenv('JUDGE_MODEL_RESPONSES_PREFIX')
-        self.model_response_format = os.getenv('JUDGE_MODEL_RESPONSE_FORMAT')
-        self.response_format_header = os.getenv('JUDGE_RESPONSE_FORMAT_HEADER')
-        self.response_format_points = os.getenv('JUDGE_RESPONSE_FORMAT_POINTS')
+
+        # Load judge format configuration
+        try:
+            with open('config.yaml', 'r') as file:
+                yaml_config = yaml.safe_load(file)
+
+            judge_config = yaml_config.get('judge', {})
+            self.user_question_prefix = judge_config.get('user_question_prefix', 'User question:')
+            self.model_responses_prefix = judge_config.get('model_responses_prefix', 'Model responses:')
+            self.model_response_format = judge_config.get('model_response_format',
+                                                          'Model {model_name} response:\n{response_content}')
+
+            response_format = judge_config.get('response_format', {})
+            self.response_format_header = response_format.get('header', 'Response format:')
+
+            points = response_format.get('points', [])
+            if points:
+                self.response_format_points = "\n".join([f"{i + 1}. {point}" for i, point in enumerate(points)])
+            else:
+                self.response_format_points = "1. Brief evaluation of each response\n2. If needed, own improved response"
+
+        except Exception as e:
+            logger.warning(f"Failed to load judge format from YAML, using defaults: {e}")
+            self.user_question_prefix = 'User question:'
+            self.model_responses_prefix = 'Model responses:'
+            self.model_response_format = 'Model {model_name} response:\n{response_content}'
+            self.response_format_header = 'Response format:'
+            self.response_format_points = "1. Brief evaluation of each response\n2. If needed, own improved response"
 
     def evaluate_responses(self, user_input: str, model_responses: List[ModelResponse]) -> ResponseResult:
         evaluation_prompt = self._create_evaluation_prompt(user_input, model_responses)
@@ -356,13 +407,30 @@ def configure_logging(log_level: LogLevel = LogLevel.INFO) -> logging.Logger:
 
 def main():
     try:
-        config_repository = EnvConfigRepository()
+        config_repository = YamlConfigRepository('config.yaml')
         app_config = config_repository.load_config()
         logger = configure_logging(app_config.log_level)
 
+        with open('config.yaml', 'r') as file:
+            yaml_config = yaml.safe_load(file)
+
+        commands_config = yaml_config.get('commands', [])
+        exit_commands = []
+        reset_command = 'reset'
+
+        for command in commands_config:
+            if isinstance(command, dict):
+                if 'exit' in command:
+                    exit_commands.extend(command['exit'])
+                if 'reset' in command:
+                    reset_command = command['reset'][0] if command['reset'] else 'reset'
+
+        if not exit_commands:
+            exit_commands = ['exit', 'quit', 'bye']
+
         chat_bot_config = ChatBotConfig(
-            exit_commands=os.getenv('EXIT_COMMANDS', 'exit,quit,bye').split(','),
-            reset_command=os.getenv('RESET_COMMAND', 'reset')
+            exit_commands=exit_commands,
+            reset_command=reset_command
         )
 
         models_to_compare = []
@@ -386,10 +454,6 @@ def main():
         )
         chat_bot.start()
 
-    except MissingEnvVariableError as e:
-        print(f"Configuration error: Missing environment variable - {e.variable_name}. Message: {e}")
-        logging.basicConfig(level=logging.ERROR)
-        logging.error(f"Configuration error: {e}", exc_info=False)
     except ConfigurationError as e:
         print(f"Configuration error: {e}")
         logging.basicConfig(level=logging.ERROR)
