@@ -20,6 +20,7 @@ models:
       system_prompt: Respond naturally and professionally
   - SpeakLeash/bielik-11b-v2.3-instruct:Q4_K_M:
       system_prompt: Respond naturally and professionally
+      judge: true
   - qwen3:0.6b:
       system_prompt: Respond naturally and professionally
   - phi4:latest:
@@ -35,5 +36,13 @@ judge:
   response_format:
     header: 'Response format:'
     points:
-      - Brief evaluation of each response
-      - If needed, own improved response
+      - Conduct an evaluation of the responses.
+      - |-
+        If necessary, provide an improved version of the response.
+        When improving responses, take into account all provided correct answers.
+      - |-
+        Each evaluation should include the following:
+        A rating of the answer's correctness (on a scale from 0 to 100), where 100 indicates a high degree of accuracy.
+        A rating of the answer's overall quality (on a scale from 0 to 100), where 100 indicates exceptional quality.
+        Quality rating should not exceed correctness rating.
+        A concise written assessment of each response.

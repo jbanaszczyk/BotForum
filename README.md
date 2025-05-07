@@ -34,7 +34,7 @@ This tool enables efficient model performance comparison and helps identify stre
 pip install -r requirements.txt
 ```
 
-3. Create/edit a `.env` file with your configuration (see Configuration section)
+3. Create/edit a `config.yaml` file with your configuration (see Configuration section)
 4. Make sure Ollama is running and the required models are available
 
 ## Usage
@@ -45,17 +45,27 @@ python chat_bot.py
 ```
 
 2. Interact with the chatbot by typing messages
-3. Use `reset` to clear conversation history
-4. Use `exit`, `quit`, or `bye` to end the session
+3. Use `/reset` to clear conversation history
+4. Use `/exit`, `/quit`, or `/bye` to end the session
 
 ## Configuration
 
 The application is configurable through the `config.yaml` file:
 
 ### Core Configuration
-```yaml
-ollama_url: http://localhost:11434
-log_level: INFO  # DEBUG, INFO, WARNING, ERROR, CRITICAL
+
+- **ollama_url**: URL to the Ollama API (default: http://localhost:11434)
+- **log_level**: Controls application logging verbosity (default: INFO)
+- **commands**: Custom commands for application control
+  - exit commands: `/exit`, `/quit`, `/bye`
+  - reset commands: `/reset`
+- **default_system_prompt**: Default system prompt used for all models unless overridden
+- **models**: List of models to use with optional custom system prompts
+  - Format: `model_name: { system_prompt: "custom prompt", judge: true/false }`
+  - Multiple models can have `judge: true` setting
+  - Evaluation requests are sent to all models marked as judges
+- **judge**: Configuration for response evaluation
+  - Prefixes and formatting for questions, responses, and evaluation output
 
 ## How It Works
 

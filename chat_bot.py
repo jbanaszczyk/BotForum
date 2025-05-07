@@ -1,5 +1,7 @@
 import logging
 import os
+import sys
+import time
 from abc import ABC, abstractmethod
 from dataclasses import dataclass, field, asdict
 from enum import Enum
@@ -31,7 +33,7 @@ class Message:
 class AppConfig:
     base_url: str = ""
     model: str = ""
-    judge_model: str = ""
+    judge_models: List[str] = field(default_factory=list)
     models_to_compare: List[str] = field(default_factory=list)
     system_prompts: Dict[str, str] = field(default_factory=dict)
     judge_system_prompt: str = ""
@@ -62,12 +64,12 @@ class YamlConfigRepository(ConfigRepository):
                 raise ConfigurationError("Configuration file is empty or invalid")
 
             models_to_compare = self._get_models_to_compare(config)
-            judge_model = self._get_judge_model(config)
+            judge_models = self._get_judge_models(config)
             return AppConfig(
                 base_url=self._get_base_url(config),
-                judge_model=judge_model,
+                judge_models=judge_models,
                 models_to_compare=models_to_compare,
-                system_prompts=self._get_system_prompts(config, judge_model, models_to_compare),
+                system_prompts=self._get_system_prompts(config, judge_models, models_to_compare),
                 judge_system_prompt=self._get_judge_system_prompt(config),
                 log_level=self._get_log_level(config)
             )
@@ -83,18 +85,24 @@ class YamlConfigRepository(ConfigRepository):
     def _get_base_url(self, config: Dict) -> str:
         return config.get("ollama_url", "http://localhost:11434")
 
-    def _get_judge_model(self, config: Dict) -> str:
+    def _get_judge_models(self, config: Dict) -> List[str]:
+        judge_models = []
+
         for model_entry in config.get("models", []):
             if isinstance(model_entry, dict):
                 model_name = next(iter(model_entry.keys()))
                 model_config = model_entry[model_name]
                 if model_config and model_config.get("judge") is True:
-                    return model_name
-        
+                    judge_models.append(model_name)
+
         if config.get("judge") and config["judge"].get("model"):
-            return config["judge"]["model"]
-            
-        raise ConfigurationError("Judge model not found. Add 'judge: true' attribute to one of the models.")
+            judge_models.append(config["judge"]["model"])
+
+        if not judge_models:
+            raise ConfigurationError(
+                "Judge model not found. Add 'judge: true' attribute to at least one of the models.")
+
+        return judge_models
 
     def _get_models_to_compare(self, config: Dict) -> List[str]:
         if not config.get("models"):
@@ -112,15 +120,19 @@ class YamlConfigRepository(ConfigRepository):
 
         return models
 
-    def _get_system_prompts(self, config: Dict, judge_model: str, models_to_compare: List[str]) -> Dict[str, str]:
+    def _get_system_prompts(self, config: Dict, judge_models: List[str], models_to_compare: List[str]) -> Dict[
+        str, str]:
         prompts = {}
         default_prompt = config.get("default_system_prompt", "You are a helpful assistant.")
 
-        # Set judge model prompt
+        # Set judge model prompts
         if config.get("judge") and config["judge"].get("system_prompt"):
-            prompts[judge_model] = config["judge"]["system_prompt"]
+            judge_prompt = config["judge"]["system_prompt"]
+            for judge_model in judge_models:
+                prompts[judge_model] = judge_prompt
         else:
-            prompts[judge_model] = default_prompt
+            for judge_model in judge_models:
+                prompts[judge_model] = default_prompt
 
         # Set model prompts
         for model_entry in config.get("models", []):
@@ -269,19 +281,11 @@ class OllamaLLMClient(LLMClient):
 
 
 class JudgeBot:
-    def __init__(self, config: AppConfig, logger: logging.Logger):
+    def __init__(self, config: AppConfig, logger: logging.Logger, llm_client: OllamaLLMClient):
         self.config = config
         self.logger = logger
-        self.judge_client = OllamaLLMClient(
-            AppConfig(
-                base_url=config.base_url,
-                model=config.judge_model,
-                system_prompts=config.system_prompts,
-                judge_system_prompt=config.judge_system_prompt,
-                log_level=config.log_level
-            ),
-            logger
-        )
+        self.model = llm_client.model
+        self.judge_client = llm_client
         self.judge_system_prompt = config.judge_system_prompt
 
         # Load judge format configuration
@@ -336,12 +340,12 @@ class JudgeBot:
 
 class ChatBot:
     def __init__(self,
-                 models_to_compare: List[LLMClient],
-                 judge_bot: JudgeBot,
+                 client_models: Dict[str, LLMClient],
+                 judge_bots: List[JudgeBot],
                  logger: logging.Logger,
                  config: ChatBotConfig):
-        self.models_to_compare = models_to_compare
-        self.judge_bot = judge_bot
+        self.client_models = client_models
+        self.judge_bots = judge_bots
         self.logger = logger
         self.config = config
 
@@ -358,7 +362,7 @@ class ChatBot:
                 if self._should_exit(user_input):
                     break
                 if user_input.lower() == self.config.reset_command:
-                    for client in self.models_to_compare:
+                    for _, client in self.client_models.items():
                         client.reset_history()
                     print("AI: Conversation history has been reset.")
                     continue
@@ -377,25 +381,42 @@ class ChatBot:
         self.logger.debug(f"Processing user input: {user_input[:50]}...")
 
         model_responses = []
-        for client in self.models_to_compare:
+        for model_name, client in self.client_models.items():
             response = client.send_message(user_input)
             if response.is_successful:
-                model_responses.append(ModelResponse(client.model, response))
-                print(f"\n[{client.model}]: {response.content}")
-                self.logger.debug(f"Response from {client.model}: {response.content[:50]}...")
+                model_responses.append(ModelResponse(model_name, response))
+                print(f"\n[{model_name}]: {response.content}")
+                self.logger.debug(f"Response from {model_name}: {response.content[:50]}...")
             else:
-                self.logger.error(f"Error processing for {client.model}: {response.error}")
-                print(f"Error [{client.model}]: {response.error}")
+                self.logger.error(f"Error processing for {model_name}: {response.error}")
+                print(f"Error [{model_name}]: {response.error}")
 
         if model_responses:
-            judge_response = self.judge_bot.evaluate_responses(user_input, model_responses)
-            if judge_response.is_successful:
-                print(f"\n[JUDGE]: {judge_response.content}")
-                self.logger.debug(f"Judge evaluation: {judge_response.content[:50]}...")
-            else:
-                self.logger.error(f"Error in judge evaluation: {judge_response.error}")
-                print(f"Error [JUDGE]: {judge_response.error}")
+            for judge_bot in self.judge_bots:
+                judge_response = judge_bot.evaluate_responses(user_input, model_responses)
+                if judge_response.is_successful:
+                    print(f"\n[JUDGE {judge_bot.model}]: {judge_response.content}")
+                    self.logger.debug(f"Judge {judge_bot.model} evaluation: {judge_response.content[:50]}...")
+                else:
+                    self.logger.error(f"Error in judge {judge_bot.model} evaluation: {judge_response.error}")
+                    print(f"Error [JUDGE {judge_bot.model}]: {judge_response.error}")
+Add support for multiple judge models and optimize client initialization
 
+1. Modified data structures to support multiple judge models:
+- Updated AppConfig.judge_model to AppConfig.judge_models (list)
+- Added _get_judge_models method detecting all models with judge:true
+
+2. Optimized model initialization:
+- Modified JudgeBot to accept an existing LLM client
+- Updated ChatBot to use a client_models dictionary
+- Eliminated double initialization of the same models
+
+3. Updated documentation in README.md explaining the ability
+to use multiple judge models simultaneously
+
+This change improves efficiency by avoiding duplicate model
+initialization and adds new functionality by allowing parallel
+evaluation of responses by multiple judge models.
 
 def configure_logging(log_level: LogLevel = LogLevel.INFO) -> logging.Logger:
     logging.basicConfig(
@@ -433,22 +454,27 @@ def main():
             reset_command=reset_command
         )
 
-        models_to_compare = []
+        # Initialize all model clients once
+        client_models = {}
         for model in app_config.models_to_compare:
             client_config = AppConfig(
                 base_url=app_config.base_url,
                 model=model,
-                judge_model=app_config.judge_model,
                 system_prompts=app_config.system_prompts,
                 judge_system_prompt=app_config.judge_system_prompt,
                 log_level=app_config.log_level
             )
-            models_to_compare.append(OllamaLLMClient(client_config, logger))
+            client_models[model] = OllamaLLMClient(client_config, logger)
 
-        judge_bot = JudgeBot(app_config, logger)
+        # Create judge bots using the existing client instances
+        judge_bots = []
+        for judge_model in app_config.judge_models:
+            # Reuse the already initialized client for this judge model
+            judge_bots.append(JudgeBot(app_config, logger, client_models[judge_model]))
+
         chat_bot = ChatBot(
-            models_to_compare=models_to_compare,
-            judge_bot=judge_bot,
+            client_models=client_models,
+            judge_bots=judge_bots,
             logger=logger,
             config=chat_bot_config
         )
