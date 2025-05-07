@@ -55,7 +55,7 @@ The application is highly configurable through environment variables in the `.en
 ### Core Configuration
 - `BASE_URL`: URL of the Ollama API (default: http://localhost:11434)
 - `LOG_LEVEL`: Logging level (DEBUG, INFO, WARNING, ERROR, CRITICAL)
-- `MODELS_TO_COMPARE`: Comma-separated list of models to compare
+- `MODELS`: Comma-separated list of models to compare
 - `JUDGE_MODEL`: Model used for evaluating responses
 
 ### System Prompts

@@ -91,7 +91,7 @@ class EnvConfigRepository(ConfigRepository):
         return self._get_required_env_var("JUDGE_MODEL")
 
     def _get_models_to_compare(self) -> List[str]:
-        models_str = self._get_required_env_var("MODELS_TO_COMPARE")
+        models_str = self._get_required_env_var("MODELS")
         return [m.strip() for m in models_str.split(",") if m.strip()]
 
     def _get_system_prompts(self, judge_model: str, models_to_compare: List[str]) -> Dict[str, str]:
