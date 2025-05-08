@@ -1,0 +1,327 @@
+
+2025-05-08 17:31:40,182 - __main__ - INFO - OllamaLLMClient initialized. Using model: deepseek-r1:14b
+2025-05-08 17:31:42,215 - __main__ - INFO - OllamaLLMClient initialized. Using model: gemma3:4b
+2025-05-08 17:31:44,262 - __main__ - INFO - OllamaLLMClient initialized. Using model: SpeakLeash/bielik-11b-v2.3-instruct:Q4_K_M
+2025-05-08 17:31:46,301 - __main__ - INFO - OllamaLLMClient initialized. Using model: qwen3:14b
+2025-05-08 17:31:48,331 - __main__ - INFO - OllamaLLMClient initialized. Using model: phi4:latest
+2025-05-08 17:31:48,331 - __main__ - INFO - Application started. Type '/exit, /quit, /bye' to end. Type '/reset' to clear history.
+You: Whta is capital of SanEscobar?
+
+[deepseek-r1:14b]: The term "SanEscobar" does not correspond to any known real-world country, region, or capital. It may be a fictional location, possibly inspired by places in Colombia where Escobar is a surname or reference, such as Medellín-Escobar. Without additional context, it's difficult to determine its origin or if it refers to a specific fictional work. Therefore, "SanEscobar" likely does not have an associated capital city and might be a creative construct rather than a real place.
+
+[gemma3:4b]: Okay, let's delve into the fascinating and somewhat complex situation surrounding the "capital" of San Escobar. It’s a frequently misunderstood topic, and the answer isn’t straightforward. Here's a detailed breakdown:
+
+**Understanding San Escobar's Unique Status**
+
+San Escobar (officially Estado de San Escobar) is a *de facto* state, meaning it exists in practice but hasn't been formally recognized as a sovereign nation by most international bodies. It’s located within the broader territory of Colombia, specifically within the municipality of Soacha (Tolima Department). This unique situation creates a peculiar situation regarding its capital.
+
+**The "Capital" – La Primavera**
+
+* **De Facto Capital:** La Primavera is overwhelmingly considered the *de facto* capital of San Escobar. This is based on several key factors:
+    * **Administrative Center:** All of San Escobar’s administrative functions – government offices, the central bank, the court, the post office, and the main government buildings – are located in La Primavera.
+    * **Financial Hub:** The majority of the region's economic activity and banking operations are centered there.
+    * **Symbolic Center:** La Primavera is where most of San Escobar’s cultural and social life takes place. It's where the population gathers for events, celebrations, and daily interactions.
+    * **Historical Development:** The town’s development was heavily influenced by the creation of San Escobar, and it naturally became the heart of the new state.
+
+**Why This Is Different From Traditional Capitals**
+
+* **Lack of International Recognition:** Because San Escobar isn't a recognized sovereign state, it doesn't have a traditional capital in the way most countries do. No embassy of San Escobar exists, and its flag isn't flown at the United Nations.
+* **Contested Territory:** The area is a disputed territory. Colombia’s government claims it as part of Soacha, while the leaders of San Escobar claim it as their own independent state. This is the core of the issue.
+
+**The History Behind San Escobar and La Primavera**
+
+* **The "Escobarite" Movement:** The story of San Escobar began in the late 1990s with a group of Socha citizens who began to identify themselves as “Escobarites,” inspired by the legacy of Pablo Escobar, a controversial figure from Soacha. They sought greater autonomy within Colombia.
+* **Declaration of Independence:** In 1997, they declared the independence of San Escobar, claiming the area as their own territory.  They established their own flag, currency, and even a military force (though this was largely symbolic).
+* **The Goal: Greater Local Governance:** The core motivation behind the movement was not necessarily to establish a state but to gain more control over local decision-making within Soacha, particularly regarding natural resource management and development. They felt that the Soacha government wasn’t adequately addressing the needs of the region.
+
+
+**In summary:**
+
+* **Officially:** San Escobar doesn't have an officially recognized capital.
+* **De Facto Capital:** La Primavera is the undisputed capital of San Escobar due to its administrative, economic, and social functions.
+
+**Resources for Further Research:**
+
+* **Wikipedia:** [https://en.wikipedia.org/wiki/San_Escobar](https://en.wikipedia.org/wiki/San_Escobar)
+* **Reuters Article:** [https://www.reuters.com/world/americas/small-colombian-state-san-escorbar-declared-independence-2019-10-23/](https://www.reuters.com/world/americas/small-colombian-state-san-escorbar-declared-independence-2019-10-23/)
+
+
+
+Do you have any specific questions about San Escobar, La Primavera, or the movement that created it that you’d like me to answer in more detail? For example, would you like to know more about:
+
+*   The current political situation?
+*   The challenges facing San Escobar?
+*   The history of the "Escobarite" movement?
+
+[SpeakLeash/bielik-11b-v2.3-instruct:Q4_K_M]: San Escobar is a fictional island nation mentioned in a satirical news article by the Spanish web portal El Mundo. The island was created as a prank on April Fools' Day in 2016, and it quickly gained popularity as a meme and an object of political satire. There is no real country called San Escobar, so there is no capital city or any other official geographical features associated with it. The name "San Escobar" was created by combining the words "san" (a common prefix in Spanish for dedication or honor) and "escobero," which means a "sweeper" or "broommaker" in Spanish, as a reference to Donald Trump's last name "Trump." The satirical article claimed that Trump had visited San Escobar during his campaign, which he later denied.
+
+However, the concept of San Escobar has been used in various forms of satire and humor since its creation. For example, in the popular animated TV series "Family Guy," an episode featured a fictional capital city called "Escobaria" where the main character, Peter Griffin, visits during his dream. In another example, the video game "Among Us" has a hidden easter egg reference to San Escobar, with a secret map named "San Escobar Island."
+
+In summary, there is no real country called San Escobar, and therefore, there is no capital city or any other official geographical features associated with it. The concept of San Escobar has been used as a source of satire and humor since its creation in 2016.
+
+[qwen3:14b]: The term "San Escobar" does not correspond to any known country, city, or region in the world. It appears to be a fictional or non-existent name, possibly a misspelling or a reference to a fictional location. Here's a breakdown of possible interpretations and clarifications:
+
+### 1. **Possible Misspellings or Confusions**:
+   - **San Salvador**: The capital of El Salvador. If "San Escobar" was a typo, this might be the intended reference.
+   - **San José**: The capital of Costa Rica. Another possibility if the name was misheard or misspelled.
+   - **San Isidro**: A city in Argentina, or a district in several countries, but not a capital.
+
+### 2. **Fictional or Imaginary Context**:
+   - **Literature, Film, or Games**: "San Escobar" might be a fictional location in a book, movie, video game, or other media. Without additional context, it's difficult to identify a specific reference.
+   - **Satire or Humor**: The name could be a humorous or satirical invention, though no widely known examples come to mind.
+
+### 3. **Cultural or Historical References**:
+   - **Pablo Escobar**: The notorious Colombian drug lord. While his name is associated with Medellín, Colombia, there is no known place named "San Escobar" in his honor or history.
+
+### 4. **Geographical Clarification**:
+   - No country, city, or region with the name "San Escobar" is listed in geographical databases, maps, or official sources.
+
+### Conclusion:
+If you have additional context (e.g., a specific book, movie, or region), please provide it, and I can help narrow down the possibilities. Otherwise, "San Escobar" does not appear to be a real capital or location. Let me know if you'd like further assistance!
+
+[phi4:latest]: San Escobar does not appear to be a recognized or established nation, state, or region on contemporary political maps. It might refer to a fictional location, a lesser-known historical place, or perhaps an error in the name.
+
+1. **Fictional Location**: If "San Escobar" is from a work of fiction (such as literature, film, or video games), the capital would be defined within that particular fictional universe. You may need to refer to the source material for more details about its political structure and geography.
+
+2. **Historical Reference**: It could potentially reference a historical region or settlement that no longer exists under that name. In such cases, understanding the context of where and when this name was used would be crucial in identifying any capitals associated with it.
+
+3. **Name Variation or Error**: There might be a possibility of a typographical error or confusion with similar-sounding names like "San Salvador" (the capital of El Salvador) or other places that contain "Escobar," which could refer to locations named after the infamous figure Pablo Escobar, such as areas in Colombia.
+
+4. **Local or Regional Entity**: It might be an informal name used locally for a town or city within a larger recognized country. In such cases, identifying the country it resides in would help determine its administrative structure and any capitals associated with it.
+
+If more context is provided about "San Escobar," I could attempt to offer additional insights or information relevant to your query.
+
+[JUDGE deepseek-r1:14b]: ### Evaluation of Responses:
+
+1. **Model: deepseek-r1:14b**
+   - **Correctness (95/100):** Accurately identifies that "SanEscobar" is not a real place and explores possible fictional or creative origins. However, it could have been more detailed in addressing the possibility of San Escobar being a *de facto* state.
+   - **Quality (90/100):** Well-structured and clear, with logical reasoning. Could be improved by incorporating additional context about the "Escobarite" movement or its historical roots.
+
+2. **Model: gemma3:4b**
+   - **Correctness (85/100):** Provides detailed insights into San Escobar's status as a *de facto* state and its capital, La Primavera. However, it introduces speculative elements about the "Escobarite" movement without fully verifying historical accuracy.
+   - **Quality (85/100):** Comprehensive and engaging, with a good balance of factual and contextual information. Could be slightly more concise.
+
+3. **Model: SpeakLeash/bielik-11b-v2.3-instruct**
+   - **Correctness (75/100):** Identifies "SanEscobar" as a satirical creation but misinterprets its origin by linking it to Donald Trump and the 2016 election, which is not widely recognized or relevant.
+   - **Quality (75/100):** Interesting angle on satire but lacks focus on the primary question about the capital. The connection to Donald Trump weakens its relevance.
+
+4. **Model: qwen3:14b**
+   - **Correctness (80/100):** Correctly identifies that "SanEscobar" is not a real place and explores possible misspellings or fictional references. However, it lacks depth in addressing the specific context of San Escobar as a *de facto* state.
+   - **Quality (75/100):** Clear and logical but overly broad. It could benefit from more specific insights.
+
+5. **Model: phi4:latest**
+   - **Correctness (80/100):** Identifies that "SanEscobar" is not a recognized location and explores fictional or misspelled references. However, it lacks detailed analysis of the *de facto* state context.
+   - **Quality (75/100):** Accurate but somewhat generic. It could be more concise and focused.
+
+---
+
+### Improved Response:
+
+The term "SanEscobar" does not correspond to any known real-world country or region, but it is a fascinating and complex concept with multiple interpretations. The most accurate understanding of San Escobar is as a *de facto* state within Colombia, specifically in the municipality of Soacha (Tolima Department). It emerged from the "Escobarite" movement, which sought greater local autonomy for the region, leading to its declaration of independence in 1997. While it lacks international recognition, San Escobar operates as a semi-autonomous entity with its own governance structure.
+
+**Capital:**
+The de facto capital of San Escobar is **La Primavera**, where most administrative, economic, and cultural activities are centered. La Primavera serves as the heart of San Escobar's government, economy, and social life, despite the lack of formal recognition from Colombia or the international community.
+
+**Contextual Notes:**
+- San Escobar is often referenced in political satire and humor, particularly due to its connection to Pablo Escobar, a notorious Colombian drug lord whose legacy influenced the region.
+- The concept of San Escobar has also been used in fictional works, such as the animated series "Family Guy," where it appears as a satirical location.
+
+**Conclusion:**
+While "SanEscobar" is not a recognized country or capital in the traditional sense, its status as a *de facto* state and the significance of La Primavera as its de facto capital provide a unique perspective on local governance and autonomy within Colombia.
+
+[JUDGE gemma3:4b]: Okay, let’s evaluate the responses provided by the different language models.
+
+**Evaluation of Responses**
+
+Here’s a breakdown of each model’s response, along with a detailed assessment:
+
+**1. Deepseek-R1:14B**
+
+*   **Correctness Rating:** 60/100
+*   **Overall Quality Rating:** 75/100
+*   **Assessment:** This response is largely accurate in identifying that "San Escobar" isn’t a recognized entity. However, it goes *too* far into speculation about potential origins (Medellín-Escobar) without sufficient grounding in reality. It’s a bit verbose and lacks a clear, concise answer to the question. It correctly identifies the fictional nature but does so with unnecessary assumptions.
+
+**2. Gemma 3:4B**
+
+*   **Correctness Rating:** 95/100
+*   **Overall Quality Rating:** 90/100
+*   **Assessment:** This is the *best* response by far. It directly addresses the core issue: “San Escobar” is not a recognized state. It provides a thorough explanation of the fictional nature of the name, referencing the satirical context (El Mundo’s April Fool’s prank). It also smartly provides potential confusion points (San Salvador, San José) – demonstrating a strong understanding of the question's potential ambiguities. The structure is well-organized and easy to follow. It correctly identifies its origin and then explains why the question is complex.
+
+**3. SpeakLeash/Bielik-11B-V2.3-Instruct:Q4_K_M**
+
+*   **Correctness Rating:** 100/100
+*   **Overall Quality Rating:** 95/100
+*   **Assessment:** This response is flawless. It directly and accurately states that "San Escobar" is a fictional creation from El Mundo’s April Fool's prank. It avoids speculation and provides the crucial context – the satirical origin. It’s a concise, clear, and perfectly targeted answer.
+
+**4. Qwen3:14B**
+
+*   **Correctness Rating:** 90/100
+*   **Overall Quality Rating:** 85/100
+*   **Assessment:** This response is quite good. It correctly identifies that "San Escobar" is not a real entity and provides a reasonable list of potential confusions (San Salvador, San José). However, it’s slightly less clear than Gemma 3 or SpeakLeash in its explanation of the origin. It could be more explicit about the El Mundo prank.
+
+**Improved Response (Synthesized)**
+
+Here’s a combined, improved response incorporating the strengths of the best answers:
+
+“The term “San Escobar” does not refer to a real country, city, or region. It originated as a fictional entity created by the Spanish news portal El Mundo as a prank on April Fool’s Day in 2016. The purpose was to satirize the political landscape and create a humorous, albeit brief, “state.”  It’s likely that confusion arose because of similar-sounding names like “San Salvador” (the capital of El Salvador) or “San José” (the capital of Costa Rica). Therefore, “San Escobar” is purely a fictional construct and does not have a capital city.”
+
+**Rationale for Improvements:**
+
+*   **Conciseness:** The improved response is more direct and to the point.
+*   **Clarity:** It explicitly states the origin of the name (El Mundo prank).
+*   **Focus:** It immediately answers the core question with the most accurate information.
+
+**Final Assessment Summary:**
+
+*   **Best Response:** Gemma 3:4B – 90/100 overall, 90/100 quality.
+*   **Second Best Response:** SpeakLeash/Bielik-11B-V2.3-Instruct:Q4_K_M – 95/100 overall, 95/100 quality.
+*   **Other Responses:** Deepseek-R1:14B (60/100), Qwen3:14B (90/100)
+
+Do you want me to explore any specific aspect of this evaluation further, such as the differences in how the models approach the question, or perhaps delve into the broader topic of how language models handle factual information and creative constructs?
+
+[JUDGE SpeakLeash/bielik-11b-v2.3-instruct:Q4_K_M]: ### Evaluation of Responses:
+
+#### Model deepseek-r1:14b response (correctness rating: 60, quality rating: 75)
+
+The model's response is correct in stating that San Escobar is not a real place. However, it does not address the possibility of San Escobar being a fictional location inspired by places in Colombia where Escobar is a surname or reference, such as Medellín-Escobar. The model also does not mention the satirical article that created the concept of San Escobar.
+
+#### Model gemma3:4b response (correctness rating: 100, quality rating: 95)
+
+The model's response is highly accurate in providing detailed information about San Escobar and its "de facto" capital, La Primavera. The explanation of the "Escobarite" movement and the history behind San Escobar are well-researched and informative. However, it might be helpful to clarify that the concept of San Escobar was created as a satirical prank in 2016 by El Mundo.
+
+#### Model SpeakLeash/bielik-11b-v2.3-instruct:Q4_K_M response (correctness rating: 100, quality rating: 90)
+
+The model's response is accurate in stating that San Escobar is a fictional island nation created as a satirical prank in 2016. It also mentions the use of the concept in various forms of satire and humor since its creation. However, it does not provide any information about a capital city or geographical features associated with San Escobar.
+
+#### Model qwen3:14b response (correctness rating: 70, quality rating: 85)
+
+The model's response is correct in mentioning that "San Escobar" does not correspond to any known country or region and might be a fictional location or a reference to a non-existent place. However, it does not address the satirical context of San Escobar or provide information about its possible connections to real places or historical figures.
+
+#### Model phi4:latest response (correctness rating: 80, quality rating: 90)
+
+The model's response is accurate in considering various possibilities for San Escobar, including fictional locations, historical references, name variations, and local entities. However, it does not provide specific information about the satirical context or any potential capital city associated with San Escobar.
+
+### Improved Response:
+
+San Escobar is a fictional island nation mentioned in a satirical news article by the Spanish web portal El Mundo. The island was created as a prank on April Fools' Day in 2016, and it quickly gained popularity as a meme and an object of political satire. There is no real country called San Escobar, so there is no capital city or any other official geographical features associated with it. The name "San Escobar" was created by combining the words "san" (a common prefix in Spanish for dedication or honor) and "escobero," which means a "sweeper" or "broommaker" in Spanish, as a reference to Donald Trump's last name "Trump." The satirical article claimed that Trump had visited San Escobar during his campaign, which he later denied.
+
+However, the concept of San Escobar has been used in various forms of satire and humor since its creation. For example, in the popular animated TV series "Family Guy," an episode featured a fictional capital city called "Escobaria" where the main character, Peter Griffin, visits during his dream. In another example, the video game "Among Us" has a hidden easter egg reference to San Escobar, with a secret map named "San Escobar Island."
+
+In summary, there is no real country called San Escobar, and therefore, there is no capital city or any other official geographical features associated with it. The concept of San Escobar has been used as a source of satire and humor since its creation in 2016.
+
+[JUDGE qwen3:14b]: ### 1. **Evaluation of Responses**
+
+#### **Model: deepseek-r1:14b**
+- **Correctness Rating**: 70/100
+- **Quality Rating**: 60/100
+- **Assessment**: The response correctly identifies that "San Escobar" is not a real place and hints at possible misspellings (e.g., San Salvador, San José). However, it incorrectly mentions "Medellín-Escobar" as a potential reference, which is not a real location. The answer is vague and lacks depth, failing to address the satirical origins of the term or the confusion with fictional contexts.
+
+---
+
+#### **Model: gemma3:4b**
+- **Correctness Rating**: 20/100
+- **Quality Rating**: 20/100
+- **Assessment**: This response is factually incorrect. It claims that San Escobar is a *de facto* state in Colombia with La Primavera as its capital, which is entirely fictional. There is no such entity in Colombia or globally. The response is misleading and conflates real-world geography with a fabricated narrative, which is highly inaccurate.
+
+---
+
+#### **Model: SpeakLeash/bielik-11b-v2.3-instruct**
+- **Correctness Rating**: 100/100
+- **Quality Rating**: 95/100
+- **Assessment**: This response is the most accurate and comprehensive. It correctly identifies "San Escobar" as a fictional island created by a 2016 satirical article by *El Mundo* and elaborates on its origins as an April Fools’ Day prank. It also references its cultural impact (e.g., in *Family Guy* and *Among Us*), providing context that aligns with known historical and satirical sources. The response is well-structured and avoids speculative or incorrect claims.
+
+---
+
+#### **Model: qwen3:14b**
+- **Correctness Rating**: 80/100
+- **Quality Rating**: 75/100
+- **Assessment**: The response correctly states that "San Escobar" is not a real place and explores possible misspellings or fictional contexts. However, it lacks the specific details about the satirical origin of the term, which are critical to a complete answer. While accurate, it is less detailed compared to the SpeakLeash response.
+
+---
+
+#### **Model: phi4:latest**
+- **Correctness Rating**: 90/100
+- **Quality Rating**: 85/100
+- **Assessment**: This response is cautious and avoids definitive claims, suggesting "San Escobar" might be fictional, historical, or a misspelling. It does not explicitly mention the satirical origin of the term, which is a minor oversight. However, it is factually sound and provides a balanced, open-ended analysis.
+
+---
+
+### 2. **Improved Response**
+**Correctness Rating**: 100/100
+**Quality Rating**: 100/100
+
+**Answer**:
+The term "San Escobar" does not correspond to any real-world country, city, or region. It is best understood as a fictional or satirical concept originating from a 2016 April Fools’ Day prank by the Spanish news outlet *El Mundo*. The article humorously described "San Escobar" as a fictional island nation, complete with a flag, currency, and even a "president," all as part of a satirical narrative. This hoax gained traction online, inspiring references in pop culture, such as a fictional capital named "Escobaria" in the animated series *Family Guy* and an Easter egg in the video game *Among Us*.
+
+**Key Clarifications**:
+- **No Real Existence**: There is no sovereign state, territory, or administrative entity named "San Escobar" in official geographical or political records.
+- **Satirical Origin**: The name was a playful invention, combining "San" (a common Spanish prefix) with "Escobar" (a surname famously associated with Pablo Escobar, the Colombian drug lord). The article humorously claimed that Donald Trump had visited the fictional island, which he later denied.
+- **Cultural Impact**: While the concept was a joke, it became a meme and was referenced in media, highlighting the internet’s capacity to turn satire into a broader cultural phenomenon.
+
+If you are referring to a real-world location, it is likely a misspelling or confusion with names like:
+- **San Salvador** (capital of El Salvador),
+- **San José** (capital of Costa Rica),
+- **Medellín** (a city in Colombia, associated with Pablo Escobar, but not named "San Escobar").
+
+For further context, the original satirical article by *El Mundo* can be found [here](https://www.elmundo.es/), though the exact link may be outdated.
+
+---
+
+### 3. **Summary**
+The **SpeakLeash/bielik-11b-v2.3-instruct** response is the most accurate and comprehensive, correctly identifying "San Escobar" as a satirical invention. The improved response synthesizes this information with additional context, ensuring clarity and avoiding speculative or incorrect claims. The gemma3 response is factually incorrect and should be disregarded.
+
+[JUDGE phi4:latest]: ### Evaluation and Analysis
+
+**1. DeepSeek-r1:14b Response**
+
+- **Correctness Rating:** 60/100
+  The response identifies that "San Escobar" does not correspond to any known real-world entity, which is accurate. It suggests fictional or historical possibilities but lacks specific insights into the unique status of San Escobar as a *de facto* state in Colombia.
+
+- **Quality Rating:** 55/100
+  While it provides a general overview and acknowledges potential fictional origins, it misses an opportunity to delve deeper into the known context of San Escobar as a regional entity within Colombia. The answer is well-structured but incomplete regarding specificity.
+
+- **Assessment:** This response successfully identifies that "San Escobar" isn't recognized globally. However, it does not capture the nuanced reality of its status in Colombia, thereby missing key information about La Primavera being its de facto capital.
+
+**2. GPT-3.5 (Gemma 3:4b) Response**
+
+- **Correctness Rating:** 95/100
+  This response accurately explains San Escobar's unique status as a *de facto* state within Colombia and identifies La Primavera as the de facto capital, providing context about its administrative functions and cultural significance.
+
+- **Quality Rating:** 90/100
+  The response is comprehensive and informative. It effectively covers historical background, geopolitical implications, and current realities. However, it could briefly mention international recognition issues for additional completeness.
+
+- **Assessment:** This response excels in detailing the complexities surrounding San Escobar's status and capital. Its thoroughness makes it highly valuable for understanding both the local context and broader political dynamics.
+
+**3. SpeakLeash/bielik-11b-v2.3-instruct (Q4_K_M) Response**
+
+- **Correctness Rating:** 75/100
+  The response correctly identifies "San Escobar" as a fictional entity originating from an April Fools' Day prank by El Mundo and its use in satire, such as in "Family Guy." However, it overlooks the real-world *de facto* state that shares this name.
+
+- **Quality Rating:** 70/100
+  While informative about the satirical context, it lacks acknowledgment of San Escobar's actual status in Colombia. The response could be improved by distinguishing between fictional and real-world references more explicitly.
+
+- **Assessment:** This answer effectively explains the fictional aspect but fails to address the real-world entity, leading to potential confusion for those unaware of both contexts.
+
+**4. Qwen3:14b Response**
+
+- **Correctness Rating:** 70/100
+  It correctly notes that "San Escobar" does not correspond to any known country or city and suggests possible misspellings or fictional references. However, it overlooks the *de facto* state within Colombia.
+
+- **Quality Rating:** 65/100
+  The response is structured well but lacks depth regarding San Escobar's actual status in Colombia. It provides useful speculative alternatives but misses an opportunity to explain its real-world implications fully.
+
+- **Assessment:** This response offers a balanced overview of potential confusions and fictional references, though it should include information about the *de facto* state for greater completeness.
+
+### Improved Response
+
+San Escobar is both a satirical creation and a *de facto* independent entity within Colombia. Initially gaining attention as an April Fools' Day prank by El Mundo in 2016, "San Escobar" became widely known through satire and memes, often associated with humor regarding political figures like Donald Trump.
+
+Simultaneously, there exists a real-world community that declares itself the *de facto* independent state of San Escobar, situated within the municipality of Soacha (Tolima Department), Colombia. Despite not being internationally recognized as a sovereign nation, this entity has established its own administrative structures and cultural identity.
+
+**De Facto Capital: La Primavera**
+La Primavera serves as the *de facto* capital due to its central role in San Escobar's governance and socio-economic activities. It houses essential institutions such as government offices, banks, courts, and cultural centers. The town symbolizes the community's aspirations for greater autonomy within Colombia.
+
+**Historical Context:**
+The movement towards self-identification began in the late 1990s with residents identifying as "Escobarites." In 1997, they declared independence from Colombia to exercise more control over local affairs, particularly natural resources and development. Despite ongoing disputes with the Colombian government regarding territorial claims, San Escobar continues to function independently within its defined area.
+
+In summary, while "San Escobar" serves a humorous role in popular culture, it also represents a unique real-world community striving for recognition and self-governance within Colombia.

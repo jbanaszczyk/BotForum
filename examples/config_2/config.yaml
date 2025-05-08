@@ -14,22 +14,24 @@ commands:
 
 default_system_prompt: Provide detailed and comprehensive response
 
+# NAME                                          SIZE     JUDGE
+# deepseek-r1:14b                               9.0 GB   +
+# gemma3:4b                                     3.3 GB   +
+# SpeakLeash/bielik-11b-v2.3-instruct:Q4_K_M    6.7 GB   +
+# qwen3:14b                                     9.3 GB   +
+# phi4:latest                                   9.1 GB   +
+
 # Model selection (names required, prompts optional)
 models:
   - deepseek-r1:14b:
-#      system_prompt: Respond naturally and professionally
       judge: true
   - gemma3:4b:
-#      system_prompt: Respond naturally and professionally
       judge: true
   - SpeakLeash/bielik-11b-v2.3-instruct:Q4_K_M:
-#      system_prompt: Respond naturally and professionally
       judge: true
   - qwen3:14b:
-#      system_prompt: Respond naturally and professionally
       judge: true
   - phi4:latest:
-#      system_prompt: Respond naturally and professionally
       judge: true
 
 judge:

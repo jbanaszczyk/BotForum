@@ -2,7 +2,7 @@
 
 ollama_url: http://localhost:11434
 log_level: INFO
-http_timeout: 300.0
+http_timeout: 30.0
 
 commands:
   - exit:
@@ -14,22 +14,26 @@ commands:
 
 default_system_prompt: Provide detailed and comprehensive response
 
+#  NAME                                          SIZE      JUDGE
+#  deepseek-r1:1.5b                              1.1 GB
+#  gemma3:1b                                     815 MB
+#  SpeakLeash/bielik-11b-v2.3-instruct:Q4_K_M    6.7 GB    +
+#  qwen3:0.6b                                    522 MB
+#  phi4:latest                                   9.1 GB    +
+
 # Model selection (names required, prompts optional)
 models:
-  - deepseek-r1:14b:
-#      system_prompt: Respond naturally and professionally
-      judge: true
-  - gemma3:4b:
-#      system_prompt: Respond naturally and professionally
-      judge: true
+  - deepseek-r1:1.5b:
+      system_prompt: Respond naturally and professionally
+  - gemma3:1b:
+      system_prompt: Respond naturally and professionally
   - SpeakLeash/bielik-11b-v2.3-instruct:Q4_K_M:
-#      system_prompt: Respond naturally and professionally
+      system_prompt: Respond naturally and professionally
       judge: true
-  - qwen3:14b:
-#      system_prompt: Respond naturally and professionally
-      judge: true
+  - qwen3:0.6b:
+      system_prompt: Respond naturally and professionally
   - phi4:latest:
-#      system_prompt: Respond naturally and professionally
+      system_prompt: Respond naturally and professionally
       judge: true
 
 judge:
