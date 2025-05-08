@@ -512,7 +512,8 @@ def main():
                 model=model,
                 system_prompts=app_config.system_prompts,
                 judge_system_prompt=app_config.judge_system_prompt,
-                log_level=app_config.log_level
+                log_level=app_config.log_level,
+                http_timeout=app_config.http_timeout
             )
             client_models[model] = OllamaLLMClient(client_config, logger)
 
