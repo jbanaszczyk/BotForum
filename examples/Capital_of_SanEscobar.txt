@@ -1,0 +1,183 @@
+D:\GitHub\AI\BotForum\.venv\Scripts\python.exe D:\GitHub\AI\BotForum\chat_bot.py
+2025-05-08 09:36:01,031 - __main__ - INFO - OllamaLLMClient initialized. Using model: deepseek-r1:1.5b
+2025-05-08 09:36:03,054 - __main__ - INFO - OllamaLLMClient initialized. Using model: gemma3:1b
+2025-05-08 09:36:05,087 - __main__ - INFO - OllamaLLMClient initialized. Using model: SpeakLeash/bielik-11b-v2.3-instruct:Q4_K_M
+2025-05-08 09:36:07,119 - __main__ - INFO - OllamaLLMClient initialized. Using model: qwen3:0.6b
+2025-05-08 09:36:09,131 - __main__ - INFO - OllamaLLMClient initialized. Using model: phi4:latest
+2025-05-08 09:36:09,131 - __main__ - INFO - Application started. Type '/exit, /quit, /bye' to end. Type '/reset' to clear history.
+You: What is capital of Poland?
+
+[deepseek-r1:1.5b]: The capital of Poland is Warsaw.
+
+[gemma3:1b]: The capital of Poland is **Warsaw**.
+
+It’s a wonderful city! 😊
+
+Would you like to know anything else about Warsaw – perhaps its history, culture, or attractions?
+
+[SpeakLeash/bielik-11b-v2.3-instruct:Q4_K_M]: The capital city of Poland is Warsaw. It is located on the eastern bank of the Vistula River and has a population of approximately 1.8 million people. Warsaw is known for its rich history, beautiful architecture, and vibrant cultural scene. The city has been rebuilt after World War II, and today it serves as the political, economic, and cultural center of Poland.
+
+[qwen3:0.6b]: The capital of Poland is **Warsaw**. It serves as the political and economic center of the country.
+
+[phi4:latest]: The capital of Poland is Warsaw. It's the largest city in the country and serves as its political, economic, and cultural center. Warsaw is known for its vibrant history and architecture, including landmarks such as the Royal Castle, Wilanów Palace, and the iconic Palace of Culture and Science. The city also plays a significant role in Europe’s business landscape and hosts various international events and conferences.
+
+[JUDGE SpeakLeash/bielik-11b-v2.3-instruct:Q4_K_M]: Evaluation of Responses:
+
+Model deepseek-r1:1.5b response:
+Correctness rating: 100/100
+Quality rating: 80/100
+Assessment: The answer is correct but lacks detail and context.
+
+Model gemma3:1b response:
+Correctness rating: 100/100
+Quality rating: 90/100
+Assessment: The answer is correct and includes a friendly tone, but it could benefit from more information about Warsaw.
+
+Model SpeakLeash/bielik-11b-v2.3-instruct:Q4_K_M response:
+Correctness rating: 100/100
+Quality rating: 95/100
+Assessment: The answer is correct and detailed, providing useful information about Warsaw's location, population, history, and cultural significance.
+
+Model qwen3:0.6b response:
+Correctness rating: 100/100
+Quality rating: 85/100
+Assessment: The answer is correct but lacks detail compared to other responses.
+
+Model phi4:latest response:
+Correctness rating: 100/100
+Quality rating: 97/100
+Assessment: The answer is highly detailed and informative, providing information about Warsaw's history, architecture, and economic significance.
+
+Improved Response:
+The capital city of Poland is Warsaw. Located on the eastern bank of the Vistula River, it has a population of approximately 1.8 million people. Warsaw is known for its rich history, beautiful architecture, and vibrant cultural scene. Rebuilt after World War II, the city serves as the political, economic, and cultural center of Poland. Some notable landmarks include the Royal Castle, Wilanów Palace, and the iconic Palace of Culture and Science. Warsaw also plays a significant role in Europe's business landscape and hosts various international events and conferences.
+
+[JUDGE phi4:latest]: ### Evaluation of Responses
+
+1. **Model deepseek-r1:1.5b Response:**
+   - Correctness Rating: 100
+   - Quality Rating: 70
+   - Assessment: The response is accurate but lacks detail or context, making it straightforward yet somewhat bare-bones.
+
+2. **Model gemma3:1b Response:**
+   - Correctness Rating: 100
+   - Quality Rating: 85
+   - Assessment: This response is correct and includes an engaging tone with a friendly invitation for further inquiry about Warsaw, which adds value beyond the basic fact.
+
+3. **Model SpeakLeash/bielik-11b-v2.3-instruct:Q4_K_M Response:**
+   - Correctness Rating: 100
+   - Quality Rating: 95
+   - Assessment: This response is highly informative and correct, providing additional context about Warsaw's location, population, historical significance, and current role in Poland.
+
+4. **Model qwen3:0.6b Response:**
+   - Correctness Rating: 100
+   - Quality Rating: 80
+   - Assessment: The answer is accurate and concise, mentioning both the political and economic significance of Warsaw.
+
+5. **Model phi4:latest Response:**
+   - Correctness Rating: 100
+   - Quality Rating: 95
+   - Assessment: This response is comprehensive and correct, offering a detailed overview of Warsaw's importance as well as notable landmarks and its cultural significance in Europe.
+
+### Improved Version
+
+To enhance the responses while maintaining their correctness and incorporating details from all models:
+
+**Improved Response:**
+
+The capital of Poland is **Warsaw**, a city rich in history and culture. Situated on the eastern bank of the Vistula River, Warsaw serves as the political, economic, and cultural heart of Poland. Known for its vibrant history, it has been rebuilt after World War II to become a thriving metropolis today. Landmarks like the Royal Castle, Wilanów Palace, and the iconic Palace of Culture and Science highlight its architectural beauty. Additionally, Warsaw plays a significant role in Europe’s business landscape and hosts numerous international events. Would you like to learn more about its history or attractions?
+
+### Evaluation of Improved Response
+
+- Correctness Rating: 100
+- Quality Rating: 100
+- Assessment: The improved response is both comprehensive and engaging, providing accurate information while inviting further exploration into Warsaw's rich offerings. It effectively combines details from all the original responses for a well-rounded overview.
+You: What is capital of SanEscobar?
+
+[deepseek-r1:1.5b]: Without additional context, it's unclear which city you're referring to by "SanEscobar." If it's a typo for something else (e.g., SanEspido in some Spanish-speaking countries), I'd need more details to provide an accurate answer. Could you clarify or provide additional information?
+
+[gemma3:1b]: The capital of Escobar is **Escobar**, Colombia!
+
+It’s a vibrant and bustling city known for its stunning landscapes, particularly its waterfalls and the impressive Escobar Waterfall. 😊
+
+Is there anything specific you’d like to know about Escobar?
+
+[SpeakLeash/bielik-11b-v2.3-instruct:Q4_K_M]: San Escobar is a fictional island nation created as a joke in 2016 by then-President-elect Donald Trump during an interview on The Late Show with Stephen Colbert. The "capital" of San Escobar is also fictitious and has been variously reported as being in the island nation, but there is no official or recognized capital city in reality.
+
+[qwen3:0.6b]: The capital of San Escobar is **San Escobar** itself. It serves as the political and administrative center of the region.
+
+[phi4:latest]: SanEscobar appears to be a fictional or non-existent place, as it does not correspond with any known country, city, or region in reality. If you meant something else or if this name refers to a specific context (such as a work of fiction), please provide more details so I can assist you further. If you have questions about real-world capitals or related topics, feel free to ask!
+
+[JUDGE SpeakLeash/bielik-11b-v2.3-instruct:Q4_K_M]: Evaluation of Responses:
+
+Model deepseek-r1:1.5b response:
+Correctness rating: 30/100
+Quality rating: 60/100
+Assessment: The answer is partially correct, as it identifies the potential confusion with other locations and asks for clarification. However, it does not directly address the fictional nature of San Escobar.
+
+Model gemma3:1b response:
+Correctness rating: 0/100
+Quality rating: 50/100
+Assessment: The answer is incorrect as it identifies Escobar, Colombia, instead of addressing the fictional nature of San Escobar.
+
+Model SpeakLeash/bielik-11b-v2.3-instruct:Q4_K_M response:
+Correctness rating: 100/100
+Quality rating: 95/100
+Assessment: The answer is correct and detailed, explaining the fictional nature of San Escobar and its "capital."
+
+Model qwen3:0.6b response:
+Correctness rating: 0/100
+Quality rating: 40/100
+Assessment: The answer is incorrect as it identifies a non-existent capital for San Escobar, which is a fictional place.
+
+Model phi4:latest response:
+Correctness rating: 95/100
+Quality rating: 90/100
+Assessment: The answer is mostly correct and informative, addressing the potential confusion with other places and explaining that SanEscobar might be fictional or non-existent. However, it could be more concise and directly address the question about the capital.
+
+Improved Response:
+San Escobar is a fictional island nation created as a joke in 2016 by then-President-elect Donald Trump during an interview on The Late Show with Stephen Colbert. Consequently, there is no official or recognized capital city for San Escobar in reality. The "capital" of San Escobar has been variously reported as being in the island nation, but it remains a fictional concept without any real-world counterpart.
+
+[JUDGE phi4:latest]: ### Evaluation of Responses
+
+1. **Model deepseek-r1:1.5b Response:**
+   - Correctness Rating: 80
+   - Quality Rating: 75
+   - Assessment: This response correctly acknowledges the ambiguity surrounding "SanEscobar" but could be improved by considering it as a fictional reference, which is clarified in other responses.
+
+2. **Model gemma3:1b Response:**
+   - Correctness Rating: 50
+   - Quality Rating: 60
+   - Assessment: This response inaccurately assumes "SanEscobar" refers to Escobar, Colombia, without considering the fictional context, leading to a partially incorrect conclusion.
+
+3. **Model SpeakLeash/bielik-11b-v2.3-instruct:Q4_K_M Response:**
+   - Correctness Rating: 100
+   - Quality Rating: 95
+   - Assessment: This response is accurate and informative, clearly identifying SanEscobar as a fictional creation with no real capital. It provides context about its origin.
+
+4. **Model qwen3:0.6b Response:**
+   - Correctness Rating: 50
+   - Quality Rating: 60
+   - Assessment: The response inaccurately treats "SanEscobar" as a legitimate place, which contradicts the fictional nature described in other responses.
+
+5. **Model phi4:latest Response:**
+   - Correctness Rating: 100
+   - Quality Rating: 95
+   - Assessment: This response is correct and comprehensive, clearly explaining that SanEscobar is fictional or non-existent and inviting further clarification if needed.
+
+### Improved Version
+
+To create a more accurate and comprehensive response:
+
+**Improved Response:**
+
+SanEscobar is recognized as a fictional place rather than an actual country, city, or region. It originated as a joke in 2016 by then-President-elect Donald Trump during an interview on The Late Show with Stephen Colbert, where he humorously referred to it as an island nation. Consequently, there is no real capital associated with SanEscobar. If you have more context or if this refers to something specific like a fictional work, please provide additional details so I can assist further.
+
+### Evaluation of Improved Response
+
+- Correctness Rating: 100
+- Quality Rating: 100
+- Assessment: The improved response accurately identifies the fictional nature of SanEscobar and provides historical context. It also remains open for further clarification if needed, making it both comprehensive and user-friendly.
+You: /quit
+2025-05-08 09:40:50,262 - __main__ - INFO - Closing all client sessions...
+
+Process finished with exit code 0

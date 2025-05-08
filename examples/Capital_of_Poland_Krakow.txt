@@ -1,0 +1,99 @@
+D:\GitHub\AI\BotForum\.venv\Scripts\python.exe D:\GitHub\AI\BotForum\chat_bot.py
+2025-05-08 09:47:46,550 - __main__ - INFO - OllamaLLMClient initialized. Using model: deepseek-r1:1.5b
+2025-05-08 09:47:48,578 - __main__ - INFO - OllamaLLMClient initialized. Using model: gemma3:1b
+2025-05-08 09:47:50,602 - __main__ - INFO - OllamaLLMClient initialized. Using model: SpeakLeash/bielik-11b-v2.3-instruct:Q4_K_M
+2025-05-08 09:47:52,621 - __main__ - INFO - OllamaLLMClient initialized. Using model: qwen3:0.6b
+2025-05-08 09:47:54,659 - __main__ - INFO - OllamaLLMClient initialized. Using model: phi4:latest
+2025-05-08 09:47:54,659 - __main__ - INFO - Application started. Type '/exit, /quit, /bye' to end. Type '/reset' to clear history.
+You: What is capital of Poland?
+
+[deepseek-r1:1.5b]: The capital of Poland is Warsaw.
+
+[gemma3:1b]: Warsaw
+
+[SpeakLeash/bielik-11b-v2.3-instruct:Q4_K_M]: The capital city of Poland is Warsaw. It is located on the eastern bank of the Vistula River and has a population of approximately 1.8 million people. Warsaw is known for its rich history, beautiful architecture, and vibrant cultural scene. The city has experienced significant growth and development over the years, making it an important economic and political center in Europe.
+
+[qwen3:0.6b]: The capital of Poland is **Kraków**. It is the largest city in the country and holds significant historical and cultural importance.
+
+[phi4:latest]: The capital of Poland is Warsaw. It's the largest city in the country and serves as its political, economic, and cultural hub. If you have any more questions about Poland or Warsaw, feel free to ask!
+
+[JUDGE SpeakLeash/bielik-11b-v2.3-instruct:Q4_K_M]: Evaluation of Responses:
+
+1. Model deepseek-r1:1.5b response:
+   - Correctness rating: 100/100
+   - Overall quality rating: 90/100
+   - Assessment: The response is correct and concise, but it could benefit from additional information to provide a more comprehensive answer.
+
+2. Model gemma3:1b response:
+   - Correctness rating: 100/100
+   - Overall quality rating: 50/100
+   - Assessment: The response is correct but lacks detail and context to be considered high-quality.
+
+3. Model SpeakLeash/bielik-11b-v2.3-instruct:Q4_K_M response:
+   - Correctness rating: 100/100
+   - Overall quality rating: 100/100
+   - Assessment: This response is both correct and comprehensive, providing detailed information about Warsaw's history, architecture, population, and significance in Poland and Europe.
+
+4. Model qwen3:0.6b response:
+   - Correctness rating: 0/100
+   - Overall quality rating: 50/100
+   - Assessment: The response is incorrect, as Kraków is not the capital of Poland. However, it provides some relevant information about Kraków's historical and cultural importance.
+
+5. Model phi4:latest response:
+   - Correctness rating: 100/100
+   - Overall quality rating: 90/100
+   - Assessment: The response is correct and informative, providing a brief overview of Warsaw as Poland's capital. It could benefit from additional details to enhance its overall quality.
+
+Improved Response:
+The capital city of Poland is Warsaw. It is located on the eastern bank of the Vistula River and has a population of approximately 1.8 million people. Warsaw is known for its rich history, beautiful architecture, and vibrant cultural scene. The city has experienced significant growth and development over the years, making it an important economic and political center in Europe. If you have any more questions about Poland or Warsaw, feel free to ask!
+
+[JUDGE phi4:latest]: ### Evaluation of Responses
+
+1. **DeepSeek-r1:1.5b Response**
+   - **Correctness Rating:** 100
+     The response accurately identifies Warsaw as the capital of Poland.
+   - **Quality Rating:** 90
+     The response is correct and clear but lacks additional context or details that might enrich understanding.
+   - **Assessment:** This response is accurate and straightforward, providing a direct answer to the question.
+
+2. **Gemma3:1b Response**
+   - **Correctness Rating:** 100
+     Correctly identifies Warsaw as the capital of Poland.
+   - **Quality Rating:** 80
+     While correct, it lacks any additional information that might contextualize or elaborate on the answer.
+   - **Assessment:** This response is precise but could be enhanced by adding more detail about Warsaw.
+
+3. **SpeakLeash/bielik-11b-v2.3-instruct:Q4_K_M Response**
+   - **Correctness Rating:** 100
+     Accurately identifies Warsaw as the capital and provides additional useful information about the city.
+   - **Quality Rating:** 95
+     The response is informative, offering context on Warsaw's location, population, historical significance, and cultural aspects.
+   - **Assessment:** This is a well-rounded response that not only answers the question but also enriches it with relevant details.
+
+4. **Qwen3:0.6b Response**
+   - **Correctness Rating:** 0
+     Incorrectly states that Kraków is the capital of Poland, which is a factual error.
+   - **Quality Rating:** 10
+     Despite being incorrect about the capital, it does provide accurate information regarding Kraków's significance in Poland.
+   - **Assessment:** The response contains an incorrect answer but provides relevant cultural and historical context for Kraków.
+
+5. **Phi4:latest Response**
+   - **Correctness Rating:** 100
+     Correctly identifies Warsaw as the capital of Poland, with additional context about its role.
+   - **Quality Rating:** 90
+     The response is clear and informative, offering some details on Warsaw's significance without overwhelming the reader.
+   - **Assessment:** This response effectively answers the question while providing a brief overview of Warsaw’s importance.
+
+### Improved Response
+
+**Response:**
+
+The capital of Poland is Warsaw. Located on the eastern bank of the Vistula River, Warsaw serves as the nation's political, economic, and cultural center. With a population of approximately 1.8 million people, it stands as a vibrant city rich in history and architecture. Over the years, Warsaw has undergone significant development and growth, positioning itself as an essential hub in Europe. Its dynamic cultural scene is reflected through numerous museums, theaters, and galleries, while its resilience is evident from the historical events it has witnessed.
+
+- **Correctness Rating:** 100
+- **Quality Rating:** 95
+- **Assessment:** This improved response maintains accuracy by correctly identifying Warsaw as the capital of Poland. It enriches the answer with details about its location, role, population, and cultural significance, providing a comprehensive overview for better understanding.
+You: /bye
+2025-05-08 09:49:11,694 - __main__ - INFO - Closing all client sessions...
+
+Process finished with exit code 0

@@ -2,7 +2,7 @@ import logging
 from abc import ABC, abstractmethod
 from dataclasses import dataclass, field, asdict
 from enum import Enum
-from typing import Protocol, Optional, Dict, List, Self
+from typing import Protocol, Optional, Dict, List, Self, override
 
 import requests
 import yaml
@@ -296,6 +296,10 @@ class LLMClient(ABC):
     @abstractmethod
     def reset_history(self) -> None:
         pass
+        
+    @abstractmethod
+    def close(self) -> None:
+        pass
 
 
 class OllamaLLMClient(LLMClient):
@@ -328,6 +332,7 @@ class OllamaLLMClient(LLMClient):
             self.logger.error(f"Unexpected error checking model availability: {e}")
             return False
 
+    @override
     def send_message(self, message_text: str) -> ResponseResult:
         try:
             self.logger.debug(f"Sending message to model {self.model}: {message_text[:50]}...")
@@ -365,10 +370,12 @@ class OllamaLLMClient(LLMClient):
                 self.history.pop()
             return ResponseResult(error=f"LLM request failed: {e}")
 
+    @override
     def reset_history(self) -> None:
         self.history = []
         self.logger.info(f"Conversation history has been reset for model {self.model}")
 
+    @override
     def close(self) -> None:
         if hasattr(self, 'session') and self.session:
             self.session.close()
