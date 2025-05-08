@@ -1,0 +1,88 @@
+2025-05-08 09:54:55,860 - __main__ - INFO - OllamaLLMClient initialized. Using model: deepseek-r1:1.5b
+2025-05-08 09:54:57,898 - __main__ - INFO - OllamaLLMClient initialized. Using model: gemma3:1b
+2025-05-08 09:54:59,922 - __main__ - INFO - OllamaLLMClient initialized. Using model: SpeakLeash/bielik-11b-v2.3-instruct:Q4_K_M
+2025-05-08 09:55:01,963 - __main__ - INFO - OllamaLLMClient initialized. Using model: qwen3:0.6b
+2025-05-08 09:55:04,000 - __main__ - INFO - OllamaLLMClient initialized. Using model: phi4:latest
+2025-05-08 09:55:04,000 - __main__ - INFO - Application started. Type '/exit, /quit, /bye' to end. Type '/reset' to clear history.
+You: What is capital of Poland
+
+[deepseek-r1:1.5b]: Poland does not have a formal capital city as its own state has no officially recognized capital. Instead, it is governed by the Polish government and handles administrative tasks across various regions. The largest cities in Poland are Cracow (known as "The City of Slurs") and Krakow (also referred to as the same name), both of which have significant historical and cultural importance within the country. Warsaw, however, is associated with history but isn't classified as the capital of Poland. Therefore, if the user refers to a regional or local city, Cracow and Krakow are the primary cities often highlighted in such contexts.
+
+**Answer:** Poland does not have a formal capital. However, the largest cities are Cracow (known as "The City of Slurs") and Krakow (also referred to as the same name). Warsaw is associated with history but isn't classified as the capital.
+
+[gemma3:1b]: The capital of Poland is **Warsaw**.
+
+It’s a great city! 😊
+
+Would you like to know anything else about Warsaw?
+
+[SpeakLeash/bielik-11b-v2.3-instruct:Q4_K_M]: The capital city of Poland is Warsaw. It is located on the Vistula River in east-central Poland and serves as the country's political, economic, and cultural center. Warsaw is known for its rich history, beautiful architecture, and vibrant cultural scene.
+
+[qwen3:0.6b]: The capital of Poland is **Warsaw**. It is the largest city in the country and plays a central role in Poland's economy and history.
+
+[phi4:latest]: The capital of Poland is Warsaw. It's the largest city in the country and serves as a major cultural, political, and economic hub. Known for its vibrant history and modern architecture, Warsaw offers numerous attractions, including the historic Old Town, the Royal Castle, and the impressive Palace of Culture and Science.
+
+[JUDGE SpeakLeash/bielik-11b-v2.3-instruct:Q4_K_M]: Evaluation of Responses:
+
+1. deepseek-r1:1.5b response (Correctness: 20, Quality: 30):
+   - The response is incorrect as it claims that Poland does not have a formal capital city, which is not true. Warsaw is the capital of Poland.
+   - The mention of Cracow and Krakow as the largest cities in Poland is also incorrect. Warsaw is the largest city in Poland, followed by Cracow and Łódź.
+   - The response style is informal and lacks professionalism.
+
+2. gemma3:1b response (Correctness: 100, Quality: 95):
+   - The response correctly identifies Warsaw as the capital of Poland.
+   - The response has a friendly and engaging tone, which enhances its quality.
+   - However, the response could benefit from providing more information about Warsaw to meet the user's expectations for a comprehensive answer.
+
+3. SpeakLeash/bielik-11b-v2.3-instruct:Q4_K_M response (Correctness: 100, Quality: 95):
+   - The response correctly identifies Warsaw as the capital of Poland and provides additional information about its location, role in Polish society, and notable attractions.
+   - The response is professional and informative, which contributes to its high quality rating.
+
+4. qwen3:0.6b response (Correctness: 100, Quality: 85):
+   - The response correctly identifies Warsaw as the capital of Poland and mentions its importance in Poland's economy and history.
+   - The response is concise but lacks details about Warsaw's cultural and historical significance, which could improve its overall quality.
+
+5. phi4:latest response (Correctness: 100, Quality: 98):
+   - The response correctly identifies Warsaw as the capital of Poland and provides detailed information about its role in Polish society, history, and attractions.
+   - The response is professional, informative, and engaging, which contributes to its high quality rating.
+
+Improved Response:
+The capital city of Poland is **Warsaw**. Located on the Vistula River in east-central Poland, Warsaw serves as the country's political, economic, and cultural center. Known for its rich history, beautiful architecture, and vibrant cultural scene, Warsaw offers numerous attractions such as the historic Old Town, the Royal Castle, and the impressive Palace of Culture and Science. As the largest city in Poland, Warsaw is an essential part of the nation's identity and a must-visit destination for both tourists and history enthusiasts.
+
+[JUDGE phi4:latest]: ### Evaluation of Model Responses
+
+1. **Model deepseek-r1:1.5b Response**
+   - **Correctness Rating:** 0/100
+     This response incorrectly states that Poland does not have a formal capital and misidentifies Warsaw as not being classified as the capital. It mistakenly suggests Cracow (Kraków) as a primary city often highlighted in contexts related to a capital.
+   - **Quality Rating:** 5/100
+   - **Assessment:** The response is factually incorrect, as Warsaw is indeed the capital of Poland. Misleading information about Kraków and the lack of acknowledgment of Warsaw diminishes its quality.
+
+2. **Model gemma3:1b Response**
+   - **Correctness Rating:** 100/100
+     This response correctly identifies Warsaw as the capital of Poland.
+   - **Quality Rating:** 90/100
+   - **Assessment:** The answer is accurate and succinct. It provides a brief, friendly introduction to Warsaw, which enhances user engagement.
+
+3. **Model SpeakLeash/bielik-11b-v2.3-instruct:Q4_K_M Response**
+   - **Correctness Rating:** 100/100
+     This response accurately names Warsaw as the capital and provides additional context about its significance.
+   - **Quality Rating:** 95/100
+   - **Assessment:** The answer is both correct and informative, offering useful details about Warsaw's location, role, and cultural importance.
+
+4. **Model qwen3:0.6b Response**
+   - **Correctness Rating:** 100/100
+     This response correctly identifies Warsaw as the capital.
+   - **Quality Rating:** 85/100
+   - **Assessment:** The answer is accurate but lacks additional context or details, making it less engaging than others.
+
+5. **Model phi4:latest Response**
+   - **Correctness Rating:** 100/100
+     This response correctly identifies Warsaw as the capital and provides a comprehensive overview of its significance.
+   - **Quality Rating:** 95/100
+   - **Assessment:** The answer is detailed, informative, and engaging, offering insights into Warsaw's historical and cultural attractions.
+
+### Improved Version of Response
+
+The capital of Poland is Warsaw. It is located on the Vistula River in east-central Poland and serves as the country's political, economic, and cultural center. Known for its rich history, beautiful architecture, and vibrant cultural scene, Warsaw offers numerous attractions such as the historic Old Town, the Royal Castle, and the impressive Palace of Culture and Science. The city is a testament to resilience and renewal, especially after its reconstruction following World War II.
+
+This improved response maintains accuracy while providing comprehensive details about Warsaw's significance, enhancing both correctness and quality ratings.
