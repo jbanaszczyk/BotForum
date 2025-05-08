@@ -2,6 +2,8 @@
 
 ollama_url: http://localhost:11434
 log_level: INFO
+http_timeout: 30.0
+
 commands:
   - exit:
       - /exit
@@ -45,4 +47,4 @@ judge:
         A rating of the answer's correctness (on a scale from 0 to 100), where 100 indicates a high degree of accuracy.
         A rating of the answer's overall quality (on a scale from 0 to 100), where 100 indicates exceptional quality.
         Quality rating should not exceed correctness rating.
-        A concise written assessment of each response.
+        A concise written assessment of the response.

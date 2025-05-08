@@ -1,7 +1,4 @@
 import logging
-import os
-import sys
-import time
 from abc import ABC, abstractmethod
 from dataclasses import dataclass, field, asdict
 from enum import Enum
@@ -30,24 +27,46 @@ class Message:
 
 
 @dataclass
+class JudgeFormatConfig:
+    user_question_prefix: str = "User question:"
+    model_responses_prefix: str = "Model responses:"
+    model_response_format: str = "Model {model_name} response:\n{response_content}"
+    response_format_header: str = "Response format:"
+    response_format_points: str = """
+        1. Conduct an evaluation of the responses.
+        2. If necessary, provide an improved version of the response.
+        When improving responses, take into account all provided correct answers.
+        3. Each evaluation should include the following:
+            - A rating of the answer's correctness (on a scale from 0 to 100), where 100 indicates a high degree of accuracy.
+            - A rating of the answer's overall quality (on a scale from 0 to 100), where 100 indicates exceptional quality.
+            - A concise written assessment of the response.
+            Quality rating should not exceed correctness rating.
+    """
+
+
+@dataclass
 class AppConfig:
     base_url: str = ""
     model: str = ""
+    models: List[str] = field(default_factory=list)
     judge_models: List[str] = field(default_factory=list)
-    models_to_compare: List[str] = field(default_factory=list)
     system_prompts: Dict[str, str] = field(default_factory=dict)
     judge_system_prompt: str = ""
     log_level: LogLevel = LogLevel.INFO
+    judge_format: JudgeFormatConfig = field(default_factory=JudgeFormatConfig)
+    http_timeout: float = 30.0
 
 
 @dataclass
 class ChatBotConfig:
     exit_commands: List[str]
-    reset_command: str
+    reset_commands: List[str]
 
 
 class ConfigRepository(Protocol):
-    def load_config(self) -> AppConfig: ...
+    def load_config(self) -> tuple[AppConfig, Dict]: ...
+
+    def get_chat_bot_config(self, config: Dict) -> ChatBotConfig: ...
 
 
 class YamlConfigRepository(ConfigRepository):
@@ -55,7 +74,7 @@ class YamlConfigRepository(ConfigRepository):
         self.config_file = config_file
         self.logger = logging.getLogger(__name__)
 
-    def load_config(self) -> AppConfig:
+    def load_config(self) -> tuple[AppConfig, Dict]:
         try:
             with open(self.config_file, 'r') as file:
                 config = yaml.safe_load(file)
@@ -63,16 +82,20 @@ class YamlConfigRepository(ConfigRepository):
             if not config:
                 raise ConfigurationError("Configuration file is empty or invalid")
 
-            models_to_compare = self._get_models_to_compare(config)
+            models = self._get_models(config)
             judge_models = self._get_judge_models(config)
-            return AppConfig(
+            app_config = AppConfig(
                 base_url=self._get_base_url(config),
+                models=models,
                 judge_models=judge_models,
-                models_to_compare=models_to_compare,
-                system_prompts=self._get_system_prompts(config, judge_models, models_to_compare),
+                system_prompts=self._get_system_prompts(config, judge_models),
                 judge_system_prompt=self._get_judge_system_prompt(config),
-                log_level=self._get_log_level(config)
+                log_level=self._get_log_level(config),
+                judge_format=self._get_judge_format_config(config),
+                http_timeout=self._get_http_timeout(config)
             )
+
+            return app_config, config
         except FileNotFoundError:
             raise ConfigurationError(f"Configuration file '{self.config_file}' not found")
         except yaml.YAMLError as e:
@@ -82,10 +105,16 @@ class YamlConfigRepository(ConfigRepository):
         except Exception as e:
             raise ConfigurationError(f"Configuration loading failed: {e}")
 
-    def _get_base_url(self, config: Dict) -> str:
+    @staticmethod
+    def _get_base_url(config: Dict) -> str:
         return config.get("ollama_url", "http://localhost:11434")
 
-    def _get_judge_models(self, config: Dict) -> List[str]:
+    @staticmethod
+    def _get_http_timeout(config: Dict) -> float:
+        return float(config.get("http_timeout", 30.0))
+
+    @staticmethod
+    def _get_judge_models(config: Dict) -> List[str]:
         judge_models = []
 
         for model_entry in config.get("models", []):
@@ -99,12 +128,12 @@ class YamlConfigRepository(ConfigRepository):
             judge_models.append(config["judge"]["model"])
 
         if not judge_models:
-            raise ConfigurationError(
-                "Judge model not found. Add 'judge: true' attribute to at least one of the models.")
+            raise ConfigurationError("Judge model not found. Add 'judge: true' attribute to at least one of the models.")
 
         return judge_models
 
-    def _get_models_to_compare(self, config: Dict) -> List[str]:
+    @staticmethod
+    def _get_models(config: Dict) -> List[str]:
         if not config.get("models"):
             raise ConfigurationError("Missing models in configuration")
 
@@ -120,12 +149,11 @@ class YamlConfigRepository(ConfigRepository):
 
         return models
 
-    def _get_system_prompts(self, config: Dict, judge_models: List[str], models_to_compare: List[str]) -> Dict[
-        str, str]:
+    @staticmethod
+    def _get_system_prompts(config: Dict, judge_models: List[str]) -> Dict[str, str]:
         prompts = {}
         default_prompt = config.get("default_system_prompt", "You are a helpful assistant.")
 
-        # Set judge model prompts
         if config.get("judge") and config["judge"].get("system_prompt"):
             judge_prompt = config["judge"]["system_prompt"]
             for judge_model in judge_models:
@@ -134,7 +162,6 @@ class YamlConfigRepository(ConfigRepository):
             for judge_model in judge_models:
                 prompts[judge_model] = default_prompt
 
-        # Set model prompts
         for model_entry in config.get("models", []):
             if isinstance(model_entry, dict):
                 model_name = next(iter(model_entry.keys()))
@@ -148,27 +175,91 @@ class YamlConfigRepository(ConfigRepository):
 
         return prompts
 
-    def _get_judge_system_prompt(self, config: Dict) -> str:
+    @staticmethod
+    def _get_judge_system_prompt(config: Dict) -> str:
         if not config.get("judge") or not config["judge"].get("system_prompt"):
             return "Provide detailed and comprehensive responses"
         return config["judge"]["system_prompt"]
 
-    def _get_log_level(self, config: Dict) -> LogLevel:
+    @staticmethod
+    def _get_log_level(config: Dict) -> LogLevel:
         log_level_str = config.get("log_level", "INFO").upper()
         try:
             return LogLevel[log_level_str]
         except KeyError:
             valid_levels = ", ".join([level.name for level in LogLevel])
-            raise ConfigurationError(
-                f"Invalid log_level '{log_level_str}'. Must be one of: {valid_levels}"
-            )
+            raise ConfigurationError(f"Invalid log_level '{log_level_str}'. Must be one of: {valid_levels}")
+
+    @staticmethod
+    def _validate_config_values(validations: List[tuple]) -> None:
+        for value, error_message in validations:
+            if not value:
+                raise ConfigurationError(error_message)
+
+    def _get_judge_format_config(self, config: Dict) -> JudgeFormatConfig:
+        if 'judge' not in config:
+            raise ConfigurationError("Missing 'judge' section in configuration")
+
+        judge_config = config['judge']
+
+        user_question_prefix = judge_config.get('user_question_prefix', '')
+        model_responses_prefix = judge_config.get('model_responses_prefix', '')
+        model_response_format = judge_config.get('model_response_format', '')
+        response_format = judge_config.get('response_format', {})
+        response_format_header = response_format.get('header', '') if response_format else ''
+        points = response_format.get('points', []) if response_format else []
+
+        self._validate_config_values([
+            (user_question_prefix, "Missing 'user_question_prefix' in judge configuration"),
+            (model_responses_prefix, "Missing 'model_responses_prefix' in judge configuration"),
+            (model_response_format, "Missing 'model_response_format' in judge configuration"),
+            (response_format, "Missing 'response_format' in judge configuration"),
+            (response_format_header, "Missing 'header' in judge response_format configuration"),
+            (points, "Missing 'points' in judge response_format configuration")
+        ])
+
+        response_format_points = "\n".join([f"{index + 1}. {point}" for index, point in enumerate(points)])
+
+        return JudgeFormatConfig(
+            user_question_prefix=user_question_prefix,
+            model_responses_prefix=model_responses_prefix,
+            model_response_format=model_response_format,
+            response_format_header=response_format_header,
+            response_format_points=response_format_points
+        )
+
+    def get_chat_bot_config(self, config: Dict) -> ChatBotConfig:
+        if 'commands' not in config:
+            raise ConfigurationError("Missing 'commands' section in configuration")
+
+        commands_config = config['commands']
+        exit_commands = []
+        reset_commands = []
+
+        for command in commands_config:
+            if isinstance(command, dict):
+                if 'exit' in command:
+                    exit_commands.extend([cmd.lower() for cmd in command['exit']])
+                if 'reset' in command:
+                    reset_commands.extend([cmd.lower() for cmd in command['reset']])
+
+        if not exit_commands:
+            raise ConfigurationError("No exit commands defined in configuration. Add at least one exit command.")
+
+        if not reset_commands:
+            raise ConfigurationError("No reset commands defined in configuration. Add at least one reset command.")
+
+        return ChatBotConfig(
+            exit_commands=exit_commands,
+            reset_commands=reset_commands
+        )
 
 
+@dataclass
 class ResponseResult:
-    def __init__(self, content: str = "", thinking: Optional[str] = None, error: Optional[str] = None):
-        self.content = content
-        self.thinking = thinking
-        self.error = error
+    content: str = ""
+    thinking: Optional[str] = None
+    error: Optional[str] = None
 
     @property
     def is_successful(self) -> bool:
@@ -217,8 +308,7 @@ class OllamaLLMClient(LLMClient):
         self.model = config.model
 
         if not self._is_model_available():
-            error_msg = (f"Model '{self.model}' is not available locally. "
-                         f"Use 'ollama pull {self.model}' command to download the model.")
+            error_msg = f"Model '{self.model}' is not available locally. Use 'ollama pull {self.model}' command to download the model."
             raise ConfigurationError(error_msg)
 
         self.system_prompt = config.system_prompts[self.model]
@@ -227,7 +317,7 @@ class OllamaLLMClient(LLMClient):
 
     def _is_model_available(self) -> bool:
         try:
-            response = self.session.get(f"{self.base_url}/api/tags")
+            response = self.session.get(f"{self.base_url}/api/tags", timeout=self.config.http_timeout)
             response.raise_for_status()
             available_models = [model["name"] for model in response.json()["models"]]
             return self.model in available_models
@@ -253,7 +343,7 @@ class OllamaLLMClient(LLMClient):
                 "stream": False
             }
 
-            response = self.session.post(f"{self.base_url}/api/chat", json=payload)
+            response = self.session.post(f"{self.base_url}/api/chat", json=payload, timeout=self.config.http_timeout)
             response.raise_for_status()
 
             result = response.json()
@@ -277,7 +367,19 @@ class OllamaLLMClient(LLMClient):
 
     def reset_history(self) -> None:
         self.history = []
-        self.logger.info("Conversation history has been reset.")
+        self.logger.info(f"Conversation history has been reset for model {self.model}")
+
+    def close(self) -> None:
+        if hasattr(self, 'session') and self.session:
+            self.session.close()
+            self.logger.debug(f"Closed HTTP session for model {self.model}")
+
+    def __del__(self) -> None:
+        # noinspection PyBroadException
+        try:
+            self.close()
+        except Exception:
+            pass
 
 
 class JudgeBot:
@@ -288,100 +390,76 @@ class JudgeBot:
         self.judge_client = llm_client
         self.judge_system_prompt = config.judge_system_prompt
 
-        # Load judge format configuration
-        try:
-            with open('config.yaml', 'r') as file:
-                yaml_config = yaml.safe_load(file)
-
-            judge_config = yaml_config.get('judge', {})
-            self.user_question_prefix = judge_config.get('user_question_prefix', 'User question:')
-            self.model_responses_prefix = judge_config.get('model_responses_prefix', 'Model responses:')
-            self.model_response_format = judge_config.get('model_response_format',
-                                                          'Model {model_name} response:\n{response_content}')
-
-            response_format = judge_config.get('response_format', {})
-            self.response_format_header = response_format.get('header', 'Response format:')
-
-            points = response_format.get('points', [])
-            if points:
-                self.response_format_points = "\n".join([f"{i + 1}. {point}" for i, point in enumerate(points)])
-            else:
-                self.response_format_points = "1. Brief evaluation of each response\n2. If needed, own improved response"
-
-        except Exception as e:
-            logger.warning(f"Failed to load judge format from YAML, using defaults: {e}")
-            self.user_question_prefix = 'User question:'
-            self.model_responses_prefix = 'Model responses:'
-            self.model_response_format = 'Model {model_name} response:\n{response_content}'
-            self.response_format_header = 'Response format:'
-            self.response_format_points = "1. Brief evaluation of each response\n2. If needed, own improved response"
+        judge_format = config.judge_format
+        self.user_question_prefix = judge_format.user_question_prefix
+        self.model_responses_prefix = judge_format.model_responses_prefix
+        self.model_response_format = judge_format.model_response_format
+        self.response_format_header = judge_format.response_format_header
+        self.response_format_points = judge_format.response_format_points
 
     def evaluate_responses(self, user_input: str, model_responses: List[ModelResponse]) -> ResponseResult:
         evaluation_prompt = self._create_evaluation_prompt(user_input, model_responses)
         return self.judge_client.send_message(evaluation_prompt)
 
     def _create_evaluation_prompt(self, user_input: str, model_responses: List[ModelResponse]) -> str:
-        responses_text = "\n\n".join([
-            self.model_response_format.format(
-                model_name=resp.model_name,
-                response_content=resp.response.content
-            )
-            for resp in model_responses
-        ])
-
-        return (
-            f"{self.user_question_prefix} {user_input}\n\n"
-            f"{self.model_responses_prefix}\n{responses_text}\n\n"
-            f"{self.judge_system_prompt}\n"
-            f"{self.response_format_header}\n"
-            f"{self.response_format_points}"
-        )
+        responses_text = "\n\n".join([self.model_response_format.format(model_name=resp.model_name, response_content=resp.response.content) for resp in model_responses])
+        return f"{self.user_question_prefix} {user_input}\n\n{self.model_responses_prefix}\n{responses_text}\n\n{self.judge_system_prompt}\n{self.response_format_header}\n{self.response_format_points}"
 
 
 class ChatBot:
     def __init__(self,
-                 client_models: Dict[str, LLMClient],
-                 judge_bots: List[JudgeBot],
+                 models: Dict[str, LLMClient],
+                 judges: List[JudgeBot],
                  logger: logging.Logger,
                  config: ChatBotConfig):
-        self.client_models = client_models
-        self.judge_bots = judge_bots
+        self.models = models
+        self.judges = judges
         self.logger = logger
         self.config = config
 
     def start(self) -> None:
-        commands_info = (
-            f"Type '{', '.join(self.config.exit_commands)}' to end. "
-            f"Type '{self.config.reset_command}' to clear history."
-        )
+        commands_info = f"Type '{', '.join(self.config.exit_commands)}' to end. Type '{', '.join(self.config.reset_commands)}' to clear history."
         self.logger.info(f"Application started. {commands_info}")
 
-        while True:
-            try:
-                user_input = input("You: ")
-                if self._should_exit(user_input):
+        try:
+            while True:
+                try:
+                    user_input = input("You: ")
+                    if self._should_exit(user_input):
+                        break
+                    if self._should_reset(user_input):
+                        for _, client in self.models.items():
+                            client.reset_history()
+                        print("AI: Conversation history has been reset.")
+                        continue
+                    self._process_user_input(user_input)
+                except KeyboardInterrupt:
+                    self.logger.info("Application terminated by user (KeyboardInterrupt).")
                     break
-                if user_input.lower() == self.config.reset_command:
-                    for _, client in self.client_models.items():
-                        client.reset_history()
-                    print("AI: Conversation history has been reset.")
-                    continue
-                self._process_user_input(user_input)
-            except KeyboardInterrupt:
-                self.logger.info("Application terminated by user (KeyboardInterrupt).")
-                break
-            except Exception as e:
-                self.logger.error(f"An unexpected error occurred: {e}")
-                print(f"Error: An unexpected error occurred. Please check logs.")
+                except Exception as e:
+                    self.logger.error(f"An unexpected error occurred: {e}")
+                    print(f"Error: An unexpected error occurred. Please check logs.")
+        finally:
+            self.logger.info("Closing all client sessions...")
+            for client_name, client in self.models.items():
+                try:
+                    if hasattr(client, 'close'):
+                        client.close()
+                        self.logger.debug(f"Closed session for client {client_name}")
+                except Exception as e:
+                    self.logger.error(f"Error closing client {client_name}: {e}")
 
     def _should_exit(self, user_input: str) -> bool:
         return user_input.lower() in self.config.exit_commands
+
+    def _should_reset(self, user_input: str) -> bool:
+        return user_input.lower() in self.config.reset_commands
 
     def _process_user_input(self, user_input: str) -> None:
         self.logger.debug(f"Processing user input: {user_input[:50]}...")
 
         model_responses = []
-        for model_name, client in self.client_models.items():
+        for model_name, client in self.models.items():
             response = client.send_message(user_input)
             if response.is_successful:
                 model_responses.append(ModelResponse(model_name, response))
@@ -392,7 +470,7 @@ class ChatBot:
                 print(f"Error [{model_name}]: {response.error}")
 
         if model_responses:
-            for judge_bot in self.judge_bots:
+            for judge_bot in self.judges:
                 judge_response = judge_bot.evaluate_responses(user_input, model_responses)
                 if judge_response.is_successful:
                     print(f"\n[JUDGE {judge_bot.model}]: {judge_response.content}")
@@ -400,23 +478,7 @@ class ChatBot:
                 else:
                     self.logger.error(f"Error in judge {judge_bot.model} evaluation: {judge_response.error}")
                     print(f"Error [JUDGE {judge_bot.model}]: {judge_response.error}")
-Add support for multiple judge models and optimize client initialization
 
-1. Modified data structures to support multiple judge models:
-- Updated AppConfig.judge_model to AppConfig.judge_models (list)
-- Added _get_judge_models method detecting all models with judge:true
-
-2. Optimized model initialization:
-- Modified JudgeBot to accept an existing LLM client
-- Updated ChatBot to use a client_models dictionary
-- Eliminated double initialization of the same models
-
-3. Updated documentation in README.md explaining the ability
-to use multiple judge models simultaneously
-
-This change improves efficiency by avoiding duplicate model
-initialization and adds new functionality by allowing parallel
-evaluation of responses by multiple judge models.
 
 def configure_logging(log_level: LogLevel = LogLevel.INFO) -> logging.Logger:
     logging.basicConfig(
@@ -428,35 +490,16 @@ def configure_logging(log_level: LogLevel = LogLevel.INFO) -> logging.Logger:
 
 def main():
     try:
-        config_repository = YamlConfigRepository('config.yaml')
-        app_config = config_repository.load_config()
+        configure_logging()
+
+        config_repository = YamlConfigRepository("config.yaml")
+        app_config, yaml_config = config_repository.load_config()
         logger = configure_logging(app_config.log_level)
 
-        with open('config.yaml', 'r') as file:
-            yaml_config = yaml.safe_load(file)
+        chat_bot_config = config_repository.get_chat_bot_config(yaml_config)
 
-        commands_config = yaml_config.get('commands', [])
-        exit_commands = []
-        reset_command = 'reset'
-
-        for command in commands_config:
-            if isinstance(command, dict):
-                if 'exit' in command:
-                    exit_commands.extend(command['exit'])
-                if 'reset' in command:
-                    reset_command = command['reset'][0] if command['reset'] else 'reset'
-
-        if not exit_commands:
-            exit_commands = ['exit', 'quit', 'bye']
-
-        chat_bot_config = ChatBotConfig(
-            exit_commands=exit_commands,
-            reset_command=reset_command
-        )
-
-        # Initialize all model clients once
         client_models = {}
-        for model in app_config.models_to_compare:
+        for model in app_config.models:
             client_config = AppConfig(
                 base_url=app_config.base_url,
                 model=model,
@@ -466,15 +509,13 @@ def main():
             )
             client_models[model] = OllamaLLMClient(client_config, logger)
 
-        # Create judge bots using the existing client instances
         judge_bots = []
         for judge_model in app_config.judge_models:
-            # Reuse the already initialized client for this judge model
             judge_bots.append(JudgeBot(app_config, logger, client_models[judge_model]))
 
         chat_bot = ChatBot(
-            client_models=client_models,
-            judge_bots=judge_bots,
+            models=client_models,
+            judges=judge_bots,
             logger=logger,
             config=chat_bot_config
         )
