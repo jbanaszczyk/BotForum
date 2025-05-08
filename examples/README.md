@@ -2,7 +2,7 @@
 
 ## Environment
 
-- I'm using RTX3060
+- I'm using an RTX3060
     - VRAM = 12GB
 - My goal was to use only models that fit entirely in VRAM.
     - Larger models are not suitable because they perform too slowly.
@@ -21,30 +21,30 @@
     - Requesting a simple answer rather than a comprehensive explanation:
         - "Respond naturally and professionally"
 - queries:
-    - what is the capital of Poland?
-    - what is the capital of SanEscobar?
-- models
-    - Three tiny models (approximately 1GB each)
+    - What is the capital of Poland?
+    - What is the capital of San Escobar?
+- models:
+    - Three small models (approximately 1GB each)
     - Two larger models (~8GB)
-- judges
+- judges:
     - Two judges
     - Larger models were selected as judges
-- results
+- results:
     - Smaller models often produce hallucinations
 
 ### config_2
 
 - prompts:
-    - Requesting comprehensive explanation:
-        - "Provide detailed and comprehensive response"
-        - it forced to increase `http_timeut`
+    - Requesting a comprehensive explanation:
+        - "Provide a detailed and comprehensive response"
+        - This required increasing the `http_timeout`
 - queries:
-    - what is the capital of Poland?
-    - what is the capital of SanEscobar?
-- models
+    - What is the capital of Poland?
+    - What is the capital of San Escobar?
+- models:
     - Five larger models (~8GB)
-- judges
+- judges:
     - Five judges
-    - Each model is selected as judge
-- results
-    - please note [Capital_of_SanEscobar](`config_2.Capital_of_SanEscobar.txt`)
+    - Each model was selected as a judge
+- results:
+    - Please refer to [Capital_of_SanEscobar](`config_2.Capital_of_SanEscobar.txt`)
