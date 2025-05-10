@@ -1,8 +1,64 @@
 ---
 
+#  NAME                                          SIZE      JUDGE
+#  deepseek-r1:1.5b                              1.1 GB
+#  gemma3:1b                                     815 MB
+#  SpeakLeash/bielik-11b-v2.3-instruct:Q4_K_M    6.7 GB    +
+#  qwen3:0.6b                                    522 MB    +
+#  phi4:latest                                   9.1 GB    +
+
 ollama_url: http://localhost:11434
 log_level: INFO
-http_timeout: 30.0
+http_timeout: 60.0
+
+# use a colon ":" after the model name if there are parameters.
+# DO NOT use a colon ":" at the end of the model name if there are no parameters.
+models:
+  - deepseek-r1:1.5b
+  - gemma3:1b
+  - SpeakLeash/bielik-11b-v2.3-instruct:Q4_K_M:
+      judge: true
+  - qwen3:0.6b:
+      system_prompt:
+        - "Respond naturally and professionally."
+        - "Provide accurate, relevant, and logically structured information."
+      judge: true
+  - phi4:latest:
+      judge: true
+
+default_system_prompt:
+  - "Respond clearly, concisely, and professionally."
+  - "Provide accurate, relevant, and logically structured information."
+  - "Maintain neutrality, avoid speculation, and clarify assumptions explicitly when needed."
+
+judge:
+  system_prompt:
+    - "You are an AI assistant responsible for evaluating and comparing responses from different language models."
+    - "Your evaluation must be objective, precise, and consistent."
+    - "Assess each response separately based on two criteria: correctness and overall quality."
+    - "Correctness measures factual accuracy, completeness, and relevance to the user's question."
+    - "Overall quality includes clarity, coherence, professionalism, logical structuring, conciseness, and neutrality."
+    - "Base your evaluation strictly on provided responses without speculating or introducing new information."
+    - "After evaluating all responses, generate your own concise, professional, and accurate answer based ONLY on responses you rated at least 80 in correctness."
+    - "If no response meets the correctness threshold, state clearly that no sufficiently correct answer was provided."
+    - "Use English, format your answer clearly using markdown, and avoid any XML or HTML tags."
+  user_question_prefix: "**User Question:**"
+  model_responses_prefix: "**Collected Model Responses:**"
+  model_response_format:
+    - "### Model name: {model_name}"
+    - "### Model response: {response_content}"
+  response_format:
+    - "Your evaluation must include:"
+    - "- **Correctness**: Rating (0-100)"
+    - "- **Overall Quality**: Rating (0-100), must not exceed correctness rating"
+    - "- **Assessment**: Short justification highlighting strengths and weaknesses"
+    - "Present the evaluation as markdown table:"
+    - ""
+    - "| Model Name | Correctness | Quality | Assessment |"
+    - "|------------|-------------|---------|------------|"
+    - ""
+    - "**Your Synthesized Answer:**"
+    - "Provide a concise and professional answer synthesized from the responses you rated as correct."
 
 commands:
   - help:
@@ -17,45 +73,3 @@ commands:
   - prompts:
       - /prompt
       - /prompts
-
-default_system_prompt: Provide detailed and comprehensive response
-
-#  NAME                                          SIZE      JUDGE
-#  deepseek-r1:1.5b                              1.1 GB
-#  gemma3:1b                                     815 MB
-#  SpeakLeash/bielik-11b-v2.3-instruct:Q4_K_M    6.7 GB    +
-#  qwen3:0.6b                                    522 MB
-#  phi4:latest                                   9.1 GB    +
-
-# Model selection (names required, prompts optional)
-
-models:
-  - deepseek-r1:1.5b
-  - gemma3:1b:
-      system_prompt: Respond naturally and professionally
-  - SpeakLeash/bielik-11b-v2.3-instruct:Q4_K_M:
-      system_prompt: Respond naturally and professionally
-      judge: true
-  - qwen3:0.6b:
-      system_prompt: Respond naturally and professionally
-      judge: true
-  - phi4:latest:
-      system_prompt: Respond naturally and professionally
-      judge: true
-
-judge:
-  #  system_prompt: "Respond naturally and professionally."
-  user_question_prefix: "User question:"
-  model_responses_prefix: "Collected model responses:"
-  model_response_format:
-    - "<model_name>{model_name}</model_name>:"
-    - "<response>{response_content}</response>"
-  response_format:
-    - "Conduct an evaluation of the responses."
-    - "If necessary, provide an improved version of the response."
-    - "When improving responses, take into account all provided correct answers."
-    - "Each evaluation should include the following:"
-    - "  - A rating of the answer's correctness (on a scale from 0 to 100), where 100 indicates a high degree of accuracy."
-    - "  - A rating of the answer's overall quality (on a scale from 0 to 100), where 100 indicates exceptional quality."
-    - "  - Quality rating should not exceed correctness rating."
-    - "  - A concise written assessment of the response."

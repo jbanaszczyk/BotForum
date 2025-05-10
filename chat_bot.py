@@ -9,11 +9,9 @@ import requests
 import typeguard
 import yaml
 
-# TODO: introduce help commands
+DEFAULT_SYSTEM_PROMPT = "default_system_prompt"
 
-# TODO: Add defaults:
-# - default_system_prompt
-# - judge configuration
+# TODO: introduce help commands
 
 # TODO: limit history size
 
@@ -21,6 +19,10 @@ import yaml
 
 DEFAULT_OLLAMA_URL: typing.Final[str] = "http://localhost:11434"
 DEFAULT_HTTP_TIMEOUT: typing.Final[float] = 30.0
+DEFAULT_VALUE_SYSTEM_PROMPT: typing.Final[str] = \
+    ("Respond clearly, concisely, and professionally.\n"
+     "Provide accurate, relevant, and logically structured information.\n"
+     "Maintain neutrality, avoid speculation, and clarify assumptions explicitly when needed.")
 
 
 class ConfigurationError(Exception):
@@ -43,19 +45,41 @@ class Message:
 
 @dataclass
 class JudgeConfig:
-    system_prompt: str
-    user_question_prefix: str
-    model_responses_prefix: str
-    model_response_format: str
-    response_format: str
+    system_prompt: str = field(default_factory=lambda: (
+        "You are an AI assistant responsible for evaluating and comparing responses from different language models.\n"
+        "Your evaluation must be objective, precise, and consistent.\n"
+        "Assess each response separately based on two criteria: correctness and overall quality.\n"
+        "Correctness measures factual accuracy, completeness, and relevance to the user's question.\n"
+        "Overall quality includes clarity, coherence, professionalism, logical structuring, conciseness, and neutrality.\n"
+        "Base your evaluation strictly on provided responses without speculating or introducing new information.\n"
+        "After evaluating all responses, generate your own concise, professional, and accurate answer based ONLY on responses you rated at least 80 in correctness.\n"
+        "If no response meets the correctness threshold, state clearly that no sufficiently correct answer was provided.\n"
+        "Use English, format your answer clearly using markdown, and avoid any XML or HTML tags."
+    ))
+    user_question_prefix: str = field(default_factory=lambda: "**User Question:**")
+    model_responses_prefix: str = field(default_factory=lambda: "**Collected Model Responses:**")
+    model_response_format: str = field(default_factory=lambda: "### Model name: {model_name}\n### Model response: {response_content}")
+    response_format: str = field(default_factory=lambda: (
+        "Your evaluation must include:\n"
+        "- **Correctness**: Rating (0-100)\n"
+        "- **Overall Quality**: Rating (0-100), must not exceed correctness rating\n"
+        "- **Assessment**: Short justification highlighting strengths and weaknesses\n"
+        "Present the evaluation as markdown table:\n"
+        "\n"
+        "| Model Name | Correctness | Quality | Assessment |\n"
+        "|------------|-------------|---------|------------|\n"
+        "\n"
+        "**Your Synthesized Answer:**\n"
+        "Provide a concise and professional answer synthesized from the responses you rated as correct."
+    ))
 
 
 @dataclass
 class ChatBotConfig:
-    help_commands: List[str]
-    exit_commands: List[str]
-    reset_commands: List[str]
-    prompts_commands: List[str]
+    help_commands: List[str] = field(default_factory=lambda: ['/?', '/help'])
+    exit_commands: List[str] = field(default_factory=lambda: ['/exit', '/quit', '/bye'])
+    reset_commands: List[str] = field(default_factory=lambda: ['/reset'])
+    prompts_commands: List[str] = field(default_factory=lambda: ['/prompt', '/prompts'])
 
 
 @dataclass
@@ -88,23 +112,22 @@ class YamlConfigRepository(ConfigRepository):
             return default_value
         return str(value)
 
+    def _validate_section_type(self, config: Dict, section_name: str, expected_section_type: typing.Type) -> None:
+        section = config.get(section_name)
+        try:
+            typeguard.check_type(section, expected_section_type, collection_check_strategy=typeguard.CollectionCheckStrategy.ALL_ITEMS)
+        except typeguard.TypeCheckError:
+            raise ConfigurationError(f"Malformed or missed '{section_name}' in configuration file {self.config_filename}")
+
     def _get_system_prompt(self, config: Dict, default_system_prompt: str) -> str:
         if not config or not isinstance(config, dict):
             return default_system_prompt
         return self._str_or_list_as_str(config.get("system_prompt"), default_system_prompt)
 
-    def _validate_section_type(self, config: Dict, section_name: str, expected_section_type: typing.Type) -> None:
-        section = config.get(section_name)
-        if not section:
-            raise ConfigurationError(f"Missing '{section_name}' in configuration file {self.config_filename}")
-        try:
-            typeguard.check_type(section, expected_section_type, collection_check_strategy=typeguard.CollectionCheckStrategy.ALL_ITEMS)
-        except typeguard.TypeCheckError:
-            raise ConfigurationError(f"Malformed '{section_name}' in configuration file {self.config_filename}")
+    def _get_default_system_prompt(self, config_section: typing.Union[None, str, typing.List[str]]) -> str:
+        config_section = config_section or DEFAULT_VALUE_SYSTEM_PROMPT
 
-    def _get_default_system_prompt(self, config: Dict) -> str:
-        DEFAULT_SYSTEM_PROMPT: typing.Final[str] = "default_system_prompt"
-        default_system_prompt = self._str_or_list_as_str(config.get(DEFAULT_SYSTEM_PROMPT))
+        default_system_prompt = self._str_or_list_as_str(config_section)
         if not default_system_prompt:
             raise ConfigurationError(f"Missing {DEFAULT_SYSTEM_PROMPT} in configuration file {self.config_filename}")
         return default_system_prompt
@@ -146,27 +169,31 @@ class YamlConfigRepository(ConfigRepository):
         return models, judges, system_prompts
 
     def _get_judge_config(self, judge_section: Dict, default_system_prompt) -> JudgeConfig:
-        data = {}
+        if not judge_section:
+            judge_section = {}
+
+        data = asdict(JudgeConfig())
         for a_field in fields(JudgeConfig):
-            data[a_field.name] = self._str_or_list_as_str(judge_section.get(a_field.name))
+            new_value = self._str_or_list_as_str(judge_section.get(a_field.name))
+            if new_value:
+                data[a_field.name] = new_value
+
         if not data.get("system_prompt"):
             data["system_prompt"] = default_system_prompt
-
-        for a_field in fields(JudgeConfig):
-            if not data[a_field.name]:
-                raise ConfigurationError(f"Missing '{a_field.name}' in judge configuration")
 
         return JudgeConfig(**data)
 
     @staticmethod
     def _get_chat_bot_config(commands_section: Dict) -> ChatBotConfig:
-
         COMMANDS_SUFFIX: typing.Final[str] = "_commands"
+        if commands_section is None:
+            commands_section = []
 
-        data = {}
+        data = asdict(ChatBotConfig())
         for command in commands_section:
             command_name, command_values = next(iter(command.items()))
-            data[command_name + COMMANDS_SUFFIX] = command_values
+            if command_values:
+                data[command_name + COMMANDS_SUFFIX] = command_values
 
         for a_field in fields(ChatBotConfig):
             if not data.get(a_field.name):
@@ -184,17 +211,16 @@ class YamlConfigRepository(ConfigRepository):
                 raise ConfigurationError(f"Configuration file {self.config_filename} is empty or invalid")
 
             expected_section_types = (
-                ("commands", typing.List[typing.Dict[str, typing.List[str]]]),
+                ("default_system_prompt", typing.Optional[typing.Union[str, typing.List[str]]]),
+                ("commands", typing.Optional[typing.List[typing.Dict[str, typing.List[str]]]]),
                 ("models", typing.List),
-                ("judge", typing.Dict[str, str | typing.List[str]]),
-                ("default_system_prompt", str | typing.List[str]),
+                ("judge", typing.Optional[typing.Dict[str, typing.Union[str, typing.List[str]]]]),
             )
 
             for section_name, section_type in expected_section_types:
                 self._validate_section_type(config, section_name, section_type)
 
-            default_system_prompt = self._get_default_system_prompt(config)
-
+            default_system_prompt = self._get_default_system_prompt(config.get(DEFAULT_SYSTEM_PROMPT))
             chat_bot_config = self._get_chat_bot_config(config.get("commands"))
             models, judges, system_prompts = self._get_models(config.get("models"), default_system_prompt)
             judge_config = self._get_judge_config(config.get("judge"), default_system_prompt)
@@ -220,7 +246,7 @@ class YamlConfigRepository(ConfigRepository):
             self.logger.error(f"Configuration error: {e}", exc_info=True)
             raise
         except Exception as e:
-            raise ConfigurationError(f"Configuration loading failed: {e}")
+            raise ConfigurationError(f"Configuration loading failed: {e}", exc_info=True)
 
 
 @dataclass
