@@ -9,6 +9,16 @@ import requests
 import typeguard
 import yaml
 
+# TODO: introduce help commands
+
+# TODO: Add defaults:
+# - default_system_prompt
+# - judge configuration
+
+# TODO: limit history size
+
+# TODO: synchronize README with code
+
 DEFAULT_OLLAMA_URL: typing.Final[str] = "http://localhost:11434"
 DEFAULT_HTTP_TIMEOUT: typing.Final[float] = 30.0
 
