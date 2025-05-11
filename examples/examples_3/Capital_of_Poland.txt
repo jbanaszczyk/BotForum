@@ -1,0 +1,73 @@
+2025-05-11 02:48:17,060 - __main__ - INFO - OllamaLLMClient initialized. Using model: deepseek-r1:14b
+2025-05-11 02:48:19,074 - __main__ - INFO - OllamaLLMClient initialized. Using model: gemma3:4b
+2025-05-11 02:48:21,089 - __main__ - INFO - OllamaLLMClient initialized. Using model: SpeakLeash/bielik-11b-v2.3-instruct:Q4_K_M
+2025-05-11 02:48:23,105 - __main__ - INFO - OllamaLLMClient initialized. Using model: qwen3:14b
+Type '/exit, /quit, /bye' to end.
+Type '/reset' to clear history.
+Type '/prompt, /prompts' to show system prompts.
+2025-05-11 02:48:25,129 - __main__ - INFO - OllamaLLMClient initialized. Using model: phi4:latest
+2025-05-11 02:48:25,129 - __main__ - INFO - Application started.
+You: What is capital of Poland?
+
+[deepseek-r1:14b]: The capital of Poland is Warsaw.
+
+[gemma3:4b]: The capital of Poland is **Warsaw**.
+
+[SpeakLeash/bielik-11b-v2.3-instruct:Q4_K_M]: The capital city of Poland is Warsaw. It is located on the Vistula River in east-central Poland and serves as the country's political, economic, and cultural center. Warsaw is also the largest city in Poland, with a population of over 1.7 million people.
+
+[qwen3:14b]: The capital of Poland is **Warsaw**. It is the largest city in the country and serves as a major political, cultural, and economic hub.
+
+[phi4:latest]: The capital of Poland is Warsaw. Warsaw serves as the political, economic, cultural, and scientific center of the country and hosts its government institutions, including the President's residence and the Parliament building.
+
+[JUDGE deepseek-r1:14b]: | Model Name                          | Correctness | Quality | Assessment                                                                 |
+|-------------------------------------|-------------|---------|-----------------------------------------------------------------------------|
+| deepseek-r1:14b                     | 100         | 95      | Concise and correct, though it could be more detailed for completeness.       |
+| gemma3:4b                           | 100         | 95      | Correct and concise, though slightly less detailed than other responses.     |
+| SpeakLeash/bielik-11b-v2.3-instruct | 100         | 100     | Very informative and well-structured, providing additional context about Warsaw. |
+| qwen3:14b                           | 100         | 98      | Correct and concise, with a good balance of detail and brevity.              |
+| phi4:latest                         | 100         | 97      | Accurate and comprehensive, though slightly verbose compared to others.     |
+
+**Your Synthesized Answer:**
+The capital of Poland is Warsaw. It serves as the political, economic, and cultural center of the country.
+
+[JUDGE gemma3:4b]: | Model Name | Correctness | Quality | Assessment |
+|------------|-------------|---------|------------|
+| deepseek-r1:14b | 100 | 95 |  Provides the accurate and concise answer. |
+| gemma3:4b | 100 | 98 |  Provides the accurate and concise answer. |
+| SpeakLeash/bielik-11b-v2.3-instruct:Q4_K_M | 95 | 90 |  While accurate, the response is overly verbose and includes unnecessary detail. |
+| qwen3:14b | 100 | 97 | Provides the accurate and concise answer. |
+| phi4:latest | 90 | 85 | The response is accurate but contains slightly redundant phrasing. |
+
+**Synthesized Answer:**
+
+The capital of Poland is Warsaw.
+
+[JUDGE SpeakLeash/bielik-11b-v2.3-instruct:Q4_K_M]: ### Evaluation Table
+
+| Model Name                    | Correctness | Quality  | Assessment
+
+[JUDGE qwen3:14b]: | Model Name | Correctness | Quality | Assessment |
+|------------|-------------|---------|------------|
+| deepseek-r1:14b | 100 | 100 | Correct and concise answer. No additional context provided, but sufficient for the question. |
+| gemma3:4b | 100 | 100 | Correct and concise answer. Matches the simplicity of the question. |
+| SpeakLeash/bielik-11b-v2.3-instruct:Q4_K_M | 100 | 100 | Correct and provides additional context (location, population, role as a center), enhancing informative value without unnecessary detail. |
+| qwen3:14b | 100 | 100 | Correct and includes relevant details about the city's role as a political, cultural, and economic hub. |
+| phi4:latest | 100 | 100 | Correct and adds specific information about government institutions, offering a slightly more detailed perspective. |
+
+**Your Synthesized Answer:**
+The capital of Poland is **Warsaw**. It is the largest city in the country and serves as a major political, cultural, and economic hub.
+
+[JUDGE phi4:latest]: Below is an evaluation of each model response based on correctness and overall quality, followed by a synthesized answer:
+
+| Model Name                             | Correctness | Quality | Assessment                                                                                                                                                                                                                       |
+|----------------------------------------|-------------|---------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| deepseek-r1:14b                        | 100         | 100     | The response is concise, accurate, and directly answers the question without unnecessary information. It meets all criteria for correctness and quality.                                                                              |
+| gemma3:4b                              | 100         | 100     | This response correctly identifies Warsaw as Poland's capital with correct formatting using bold text. It maintains clarity and precision while being slightly more stylistically distinct than others.                           |
+| SpeakLeash/bielik-11b-v2.3-instruct:Q4_K_M | 90          | 90      | The answer is factually accurate but includes additional details about Warsaw's geography, demographics, and role that are not necessary for the question "What is the capital of Poland?" This slightly reduces its overall quality score. |
+| qwen3:14b                              | 100         | 100     | Similar to deepseek-r1:14b, this response provides a concise and accurate answer with emphasis using bold text, making it both correct and of high quality in addressing the question succinctly.                               |
+| phi4:latest                            | 100         | 100     | This model delivers an accurate and comprehensive response, including relevant details about Warsaw's significance. It is well-structured and maintains professionalism without being overly verbose.                           |
+
+**Synthesized Answer:**
+
+The capital of Poland is Warsaw.
+You:

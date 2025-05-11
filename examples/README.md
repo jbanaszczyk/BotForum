@@ -48,3 +48,8 @@
     - Each model was selected as a judge
 - results:
     - Please refer to [Capital_of_SanEscobar](`config_2.Capital_of_SanEscobar.txt`)
+
+### config_3
+
+- same as `config_2`
+- but with a new updated, prompts

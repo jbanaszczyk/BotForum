@@ -1,0 +1,85 @@
+D:\GitHub\AI\BotForum\.venv\Scripts\python.exe D:\GitHub\AI\BotForum\chat_bot.py
+2025-05-11 02:51:27,631 - __main__ - INFO - OllamaLLMClient initialized. Using model: deepseek-r1:14b
+2025-05-11 02:51:29,650 - __main__ - INFO - OllamaLLMClient initialized. Using model: gemma3:4b
+2025-05-11 02:51:31,669 - __main__ - INFO - OllamaLLMClient initialized. Using model: SpeakLeash/bielik-11b-v2.3-instruct:Q4_K_M
+2025-05-11 02:51:33,689 - __main__ - INFO - OllamaLLMClient initialized. Using model: qwen3:14b
+2025-05-11 02:51:35,705 - __main__ - INFO - OllamaLLMClient initialized. Using model: phi4:latest
+2025-05-11 02:51:35,705 - __main__ - INFO - Application started.
+Type '/exit, /quit, /bye' to end.
+Type '/reset' to clear history.
+Type '/prompt, /prompts' to show system prompts.
+You: What is capital of SanEscobar?
+
+[deepseek-r1:14b]: The term "SanEscobar" does not correspond to any known country or officially recognized location. If you meant a specific place or have additional context, please provide further details so I can assist you better!
+
+[gemma3:4b]: San Escobar does not have a formally recognized capital city. It is a micronation, a self-declared independent state, and its seat of government is located in the town of **San Vicente**, within the municipality of El Chocó, Colombia.
+
+[SpeakLeash/bielik-11b-v2.3-instruct:Q4_K_M]: SanEscobar is a fictional country created by Spanish comedians as part of a satirical news report in 2016. The capital city mentioned in the report was "San Escobar City." However, since SanEscobar is not a real country, it does not have an official capital or any political, geographical, or infrastructure elements associated with a real nation. It is important to note that this entire concept is purely for humor and has no basis in reality.
+
+[qwen3:14b]: SanEscobar is not recognized as a country, region, or municipality in any official geographic or political context. It may be a fictional name, a misspelling, or a reference to a non-existent location. If you meant a different name or have additional context, please clarify, and I’ll do my best to assist.
+
+[phi4:latest]: As of my last update in October 2023, there is no recognized country or region officially named "SanEscobar." It's possible that this could be a fictional place, a nickname, or an unofficial term for a location. If you're referring to a specific area or context where this name might apply (such as literature, media, or local usage), additional details would help clarify the question.
+
+If you are looking for information on any other known country or region named with "San" (often used in Spanish-speaking countries) and possibly involving "Escobar" (a surname associated with several places and individuals), please provide more context. In cases like Colombia, Medellín was historically significant due to Pablo Escobar's association with the city.
+
+For accurate and up-to-date information, consulting a reliable geographic or governmental source would be advisable.
+
+[JUDGE deepseek-r1:14b]: **Evaluation of Responses:**
+
+| Model Name                  | Correctness | Quality | Assessment                                                                 |
+|----------------------------|-------------|---------|---------------------------------------------------------------------------|
+| deepseek-r1:14b            | 80          | 75      | Provides correct information but lacks depth.                               |
+| gemma3:4b                 | 95          | 90      | Accurate and detailed, specifying San Escobar as a micronation with its capital in San Vicente.                     |
+| SpeakLeash/bielik-11b-v2.3-instruct | 85          | 85      | Correctly identifies SanEscobar as fictional with the capital mentioned, though slightly verbose.                |
+| qwen3:14b                 | 70          | 65      | Less detailed but correct in stating it's not recognized.                   |
+| phi4:latest               | 75          | 70      | Partially correct by noting it's fictional, but adds irrelevant context about Medellín.                                    |
+
+**Synthesized Answer:**
+
+SanEscobar is a fictional country created as part of a satirical news report and is not recognized as an official nation. It has been referred to in some contexts with the capital being San Escobar City. Additionally, there is mention of it being associated with El Chocó, Colombia, where its government seat is located in the town of San Vicente.
+
+[JUDGE gemma3:4b]: | Model Name | Correctness | Quality | Assessment |
+|------------|-------------|---------|------------|
+| deepseek-r1:14b | 90 | 85 |  Accurately identifies San Escobar as not a recognized country and correctly states the seat of government is San Vicente, Colombia. |
+| gemma3:4b | 95 | 90 | Provides the most complete and accurate response, clearly stating San Escobar is a micronation with its government located in San Vicente, Colombia. |
+| SpeakLeash/bielik-11b-v2.3-instruct:Q4_K_M | 70 | 75 |  Correctly identifies the origin of the “San Escobar” concept as a satirical news report and highlights its fictional nature, but lacks detail on its current status. |
+| qwen3:14b | 85 | 80 |  Accurately states that San Escobar is not recognized and offers a general suggestion for clarification. |
+| phi4:latest | 75 | 70 | Correctly states the lack of recognition and suggests potential connections to Medellín, but its response is somewhat disjointed and less focused on the core question. |
+
+**Synthesized Answer:**
+
+San Escobar is a micronation, not a formally recognized country. Its seat of government is located in the town of San Vicente, within the municipality of El Chocó, Colombia. It was created as a satirical concept.
+
+
+[JUDGE SpeakLeash/bielik-11b-v2.3-instruct:Q4_K_M]: ### Evaluation Table:
+
+| Model Name                   | Correctness | Quality  | Assessment
+
+[JUDGE qwen3:14b]: | Model Name | Correctness | Quality | Assessment |
+|------------|-------------|---------|------------|
+| deepseek-r1:14b | 80 | 80 | Accurate in noting the lack of recognition but lacks specificity. Neutral and clear, though not addressing the fictional context. |
+| gemma3:4b | 50 | 60 | Incorrectly identifies San Escobar as a micronation with a specific capital. Misleading information that contradicts established knowledge about the fictional origin. |
+| SpeakLeash/bielik-11b-v2.3-instruct:Q4_K_M | 90 | 90 | Correctly identifies SanEscobar as a fictional creation by Spanish comedians in 2016, with "San Escobar City" as the satirical capital. Clear, concise, and contextually accurate. |
+| qwen3:14b | 80 | 80 | Accurate in stating no official recognition but does not address the fictional context. Professional and neutral, though slightly vague. |
+| phi4:latest | 70 | 75 | Correctly notes the lack of recognition and hints at possible fictional or satirical origins but introduces irrelevant information about Medellín. Well-structured but slightly off-topic. |
+
+**Your Synthesized Answer:**
+SanEscobar is a fictional country created by Spanish comedians in a satirical news report in 2016. The report humorously named the capital "San Escobar City," but since SanEscobar is not a real nation, it has no official capital or political reality. The concept exists solely as a satirical piece and is not associated with any actual geographic or political entity.
+
+[JUDGE phi4:latest]: Below is an evaluation of each model's response based on correctness and overall quality, followed by a synthesized answer based on those evaluations.
+
+| Model Name                          | Correctness | Quality | Assessment                                                                                                                                                                                                                         |
+|-------------------------------------|-------------|---------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| deepseek-r1:14b                     | 70          | 65      | The response appropriately identifies the lack of recognition for "SanEscobar" but lacks additional context or details that might be useful. It is clear and neutral, but incomplete due to missing information about micronations. |
+| gemma3:4b                           | 100         | 95      | This response provides specific and accurate information regarding San Escobar as a micronation with its seat of government in San Vicente, Colombia. The answer is relevant, complete, and professionally articulated.             |
+| SpeakLeash/bielik-11b-v2.3-instruct:Q4_K_M | 100         | 95      | Correctly identifies "SanEscobar" as a fictional country from a satirical news report. It provides contextual background, which is accurate and relevant, with clear and coherent explanation.                                       |
+| qwen3:14b                           | 80          | 75      | Accurately notes the lack of official recognition for "SanEscobar" while suggesting it might be fictional or misspelled. The response is concise but could provide more specific context like micronation details.                   |
+| phi4:latest                         | 85          | 80      | Provides a comprehensive explanation that recognizes the possibility of "SanEscobar" being fictional, referencing its non-recognition in official contexts. It’s neutral and informative though slightly lacking in specificity.     |
+
+**Synthesized Answer:**
+
+San Escobar is not an officially recognized country or region. However, it is known as a micronation with its seat of government located in the town of San Vicente within El Chocó, Colombia. Additionally, "SanEscobar" was used fictionally in a satirical news report by Spanish comedians in 2016, where a fictional capital named "San Escobar City" was mentioned. These contexts highlight the term's use as both a micronation and part of a satirical work.
+You: /bye
+2025-05-11 02:54:59,070 - __main__ - INFO - Closing all client sessions...
+
+Process finished with exit code 0
