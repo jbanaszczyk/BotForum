@@ -18,7 +18,7 @@ DEFAULT_SYSTEM_PROMPT = "default_system_prompt"
 # TODO: synchronize README with code
 
 DEFAULT_OLLAMA_URL: typing.Final[str] = "http://localhost:11434"
-DEFAULT_HTTP_TIMEOUT: typing.Final[float] = 30.0
+DEFAULT_HTTP_TIMEOUT: typing.Final[float] = 60.0
 DEFAULT_VALUE_SYSTEM_PROMPT: typing.Final[str] = \
     ("Respond clearly, concisely, and professionally.\n"
      "Provide accurate, relevant, and logically structured information.\n"

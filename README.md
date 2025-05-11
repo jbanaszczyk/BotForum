@@ -1,91 +1,186 @@
+# LLM Response Comparator
+
 A command-line application for comparing responses from multiple large language models simultaneously. This tool connects to Ollama to interact with various models, displays their responses side-by-side, and uses a designated "judge" model to evaluate response quality.
-The application loads configuration from environment variables, checks for model availability, manages conversation history, and provides a simple interface for sending prompts and viewing results. It includes robust error handling for configuration issues, unavailable models, and API communication problems.
-Key functionality includes:
-- Simultaneous querying of multiple LLM models
-- Side-by-side response comparison
-- Response evaluation by a judge model
-- Conversation history management
-- Support for thinking/reasoning extraction
-- Flexible environment-based configuration
+
+The application loads configuration from environment variables, checks model availability, manages conversation history, and provides a simple interface for sending prompts and viewing results. It includes robust error handling for configuration issues, unavailable models, and API communication problems.
+
+## Key Functionality
+
+* Simultaneous querying of multiple LLM models
+* Side-by-side response comparison
+* Response evaluation by a judge model
+* Conversation history management
+* Support for thinking/reasoning extraction
+* Flexible environment-based configuration
 
 This tool enables efficient model performance comparison and helps identify strengths and weaknesses across different language models running on Ollama.
 
 ## Features
 
-- **Multiple Model Interaction**: Communicate with several language models at once
-- **Response Comparison**: Compare responses from different models side-by-side
-- **Response Evaluation**: A designated "judge" model evaluates each response
-- **Conversation Management**: Reset conversation history or exit the application with simple commands
-- **Flexible Configuration**: Configure models, prompts, and system behavior through YAML configuration
+* **Multiple Model Interaction**: Communicate with several language models simultaneously.
+* **Response Comparison**: View responses from different models side-by-side.
+* **Response Evaluation**: Utilize a designated "judge" model to evaluate each response.
+* **Conversation Management**: Reset conversation history or exit the application with simple commands.
+* **Flexible Configuration**: Configure models, prompts, and system behavior via YAML.
 
 ## Requirements
 
-- Python 3.8+
-- Ollama (running locally or on a remote server)
-- Required Python packages:
-    - requests
-    - pyyaml
+* Python 3.8+
+* Ollama (running locally or on a remote server)
+* Required Python packages:
+
+  * `requests`
+  * `pyyaml`
 
 ## Installation
 
-1. Clone this repository
-2. Install the required dependencies:
-```
-pip install -r requirements.txt
-```
+1. Clone this repository.
 
-3. Create/edit a `config.yaml` file with your configuration (see Configuration section)
-4. Make sure Ollama is running and the required models are available
+2. Install dependencies:
+
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+3. Create or edit the `config.yaml` file (see Configuration section below).
+
+4. Ensure Ollama is running and required models are available.
 
 ## Usage
 
-1. Start the application:
-```
+Start the application:
+
+```bash
 python chat_bot.py
 ```
 
-2. Interact with the chatbot by typing messages
-3. Use `/reset` to clear conversation history
-4. Use `/exit`, `/quit`, or `/bye` to end the session
+Interact by typing messages:
+
+* Use `/reset` to clear conversation history.
+* Use `/exit`, `/quit`, or `/bye` to end the session.
 
 ## Configuration
 
-The application is configurable through the `config.yaml` file:
+Configure the application through the `config.yaml` file:
 
-### Core Configuration
+### Core Settings
 
-- **ollama_url**: URL to the Ollama API (default: http://localhost:11434)
-- **log_level**: Controls application logging verbosity (default: INFO)
-- **commands**: Custom commands for application control
-  - exit commands: `/exit`, `/quit`, `/bye`
-  - reset commands: `/reset`
-- **default_system_prompt**: Default system prompt used for all models unless overridden
-- **models**: List of models to use with optional custom system prompts
-  - Format: `model_name: { system_prompt: "custom prompt", judge: true/false }`
-  - Multiple models can have `judge: true` setting
-  - Evaluation requests are sent to all models marked as judges
-- **judge**: Configuration for response evaluation
-  - Prefixes and formatting for questions, responses, and evaluation output
+```yaml
+ollama_url: http://localhost:11434    # URL to Ollama API
+http_timeout: 60.0                    # HTTP request timeout in seconds
+log_level: INFO                       # Logging level (DEBUG/INFO/WARNING/ERROR/CRITICAL)
+```
+
+All settings are optional with sensible defaults.
+
+### Model Configuration
+
+Important:
+
+* Use a colon `:` after the model name only if parameters follow.
+
+Example:
+
+```yaml
+models:
+  - model-name:latest                 # Basic model
+  - another-model:14b:                # Model with parameters
+      judge: true                     # Mark as judge (optional)
+      system_prompt: "Custom prompt"  # Custom prompt (optional)
+  - just-another-model:
+      system_prompt:
+        - "This is a custom system prompt"
+        - "It can be a list of strings"
+```
+
+Each model supports:
+
+* Model name with optional version
+* `judge`: Boolean flag marking model as evaluator
+* `system_prompt`: Custom system prompt (single string or list)
+
+### Default System Prompt
+
+Used unless overridden per model:
+
+```yaml
+default_system_prompt:
+  - "Respond clearly, concisely, and professionally."
+  - "Provide accurate, relevant, logically structured information."
+  - "Maintain neutrality, avoid speculation, and clarify assumptions explicitly when needed."
+```
+
+`default_system_prompt` is optional and can be single or multiple strings.
+
+### Commands Configuration
+
+Define application commands and aliases:
+
+```yaml
+commands:
+  - help:
+      - /?
+      - /help
+  - exit:
+      - /exit
+      - /quit
+      - /bye
+  - reset:
+      - /reset
+  - prompts:
+      - /prompt
+      - /prompts
+```
+
+Commands are optional with default aliases provided.
+
+### Judge Configuration
+
+Configure evaluation of model responses:
+
+```yaml
+judge:
+  system_prompt:
+    - "You are an AI assistant responsible for evaluating responses."
+    - "Your evaluation must be objective, precise, and consistent."
+
+  user_question_prefix: "**User Question:**"
+  model_responses_prefix: "**Collected Model Responses:**"
+
+  model_response_format:
+    - "### Model name: {model_name}"
+    - "### Model response: {response_content}"
+
+  response_format:
+    - "Your evaluation must include:"
+    - "- **Correctness**: Rating (0-100)"
+    - "- **Quality**: Rating (0-100)"
+    - "- **Assessment**: Brief justification"
+```
+
+All fields are optional and accept single or multiple strings, automatically joined with newlines.
+
+File paths are relative to the application directory.
 
 ## How It Works
 
-1. The application initializes multiple LLM clients based on the configured models
-2. When a user sends a message, it's forwarded to all configured models
-3. Each model processes the message and provides a response
-4. All responses are displayed to the user
-5. The judge model evaluates the responses and provides its assessment
-6. The conversation history is maintained for each model unless reset
+1. Initializes multiple LLM clients based on configuration.
+2. Forwards user messages to all configured models.
+3. Receives and displays responses side-by-side.
+4. Judge model evaluates responses, providing an assessment.
+5. Maintains conversation history per model unless reset.
 
 ## Key Components
 
-- **OllamaLLMClient**: Handles communication with Ollama API for each model
-- **JudgeBot**: Specializes in evaluating responses from other models
-- **ChatBot**: Coordinates the conversation flow and user interaction
-- **ConfigRepository**: Manages application configuration from YAML file
+* **OllamaLLMClient**: Handles API communication with Ollama.
+* **JudgeBot**: Evaluates responses from other models.
+* **ChatBot**: Manages conversation flow and user interactions.
+* **ConfigRepository**: Loads configuration from YAML.
 
 ## Error Handling
 
-The application provides clear error messages for common issues:
-- Missing configuration variables
-- Models not available locally (with instructions to pull them)
-- Network/API communication errors
+Provides clear messages for common issues:
+
+* Missing configuration
+* Unavailable local models (with pull instructions)
+* Network/API communication errors
