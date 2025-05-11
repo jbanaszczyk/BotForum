@@ -15,7 +15,7 @@
 
 ## What is inside
 
-### config_1
+### examples_1
 
 - prompts:
     - Requesting a simple answer rather than a comprehensive explanation:
@@ -32,7 +32,7 @@
 - results:
     - Smaller models often produce hallucinations
 
-### config_2
+### examples_2
 
 - prompts:
     - Requesting a comprehensive explanation:
@@ -49,7 +49,25 @@
 - results:
     - Please refer to [Capital_of_SanEscobar](`config_2.Capital_of_SanEscobar.txt`)
 
-### config_3
+### examples_3
 
 - same as `config_2`
-- but with a new updated, prompts
+- but with a new **updated, prompts**
+
+### examples_4
+
+- In reference to the article https://www.elektroda.pl/rtvforum/viewtopic.php?p=21546193#21546193
+  - Title: "czy elektroda.pl to najlepszy portal dla elektroników?"
+  - Prompt: Is elektroda.pl the best Polish portal for electronics enthusiasts?
+    - Repeated 2 times
+    - but LLMs are aware of previous answers.
+  - As usual – the Bielik LLM has trouble understanding the concept of judging.
+- config
+  - with a new **updated, prompts**
+  - same as `config_2`
+  - models:
+    - Five larger models (~8GB)
+  - judges:
+    - Five judges
+    - Each model was selected as a judge
+  - timeout: 5 minutes
