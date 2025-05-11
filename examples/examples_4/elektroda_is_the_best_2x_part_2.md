@@ -1,7 +1,9 @@
-### The same session,
+```
+``### The same session,
 ### the same question,
 ### but LLMs are aware of previous answers.
 =============================
+```
 You: Is elektroda.pl the best Polish portal for electronics enthusiasts?
 
 [deepseek-r1:14b]: Elektroda.pl is widely recognized as one of the leading Polish portals for electronics enthusiasts due to its active community, comprehensive content, and user-friendly interface. While it stands out among other platforms likeforum.mikrokontrolery.pl or elektronika.pl, whether it is the "best" depends on individual preferences regarding specific needs such as niche topics, language accessibility, or platform features.

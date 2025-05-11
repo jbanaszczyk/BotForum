@@ -1,3 +1,4 @@
+```
 2025-05-11 18:26:08,875 - __main__ - INFO - OllamaLLMClient initialized. Using model: deepseek-r1:14b
 2025-05-11 18:26:10,892 - __main__ - INFO - OllamaLLMClient initialized. Using model: gemma3:4b
 2025-05-11 18:26:12,908 - __main__ - INFO - OllamaLLMClient initialized. Using model: SpeakLeash/bielik-11b-v2.3-instruct:Q4_K_M
@@ -7,6 +8,7 @@
 Type '/exit, /quit, /bye' to end.
 Type '/reset' to clear history.
 Type '/prompt, /prompts' to show system prompts.
+```
 You: Is elektroda.pl the best Polish portal for electronics enthusiasts?
 
 [deepseek-r1:14b]: The evaluation of whether Elektroda.pl is the best Polish portal for electronics enthusiasts depends on several factors:
